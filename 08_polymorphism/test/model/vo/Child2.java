@@ -17,12 +17,12 @@ private int n;
 	}
 	
 	public void printChild2() {
-		System.out.println("³ª µÎ ¹øÂ° ÀÚ½ÄÀÓ");
+		System.out.println("ë‚˜ ë‘ ë²ˆì§¸ ìì‹ì„");
 	}
 	
 	@Override
 	public void print() {
-		System.out.println("³ª µÎ ¹øÂ° ÀÚ½ÄÀÌ¶ó´Ï±î?");
+		System.out.println("ë‚˜ ë‘ ë²ˆì§¸ ìì‹ì´ë¼ë‹ˆê¹Œ?");
 	}
 
 }

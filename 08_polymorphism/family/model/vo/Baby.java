@@ -1,6 +1,6 @@
 package com.kh.example.family.model.vo;
 
-public class Baby extends Family implements Basic {	// ¾Õ¿¡ ²À extends°¡ ÀÖÀ» ÇÊ¿ä´Â ¾øÀ½
+public class Baby extends Family implements Basic {	// ì•ì— ê¼­ extendsê°€ ìˆì„ í•„ìš”ëŠ” ì—†ìŒ
 	public Baby() {}
 	public Baby(String name, double weight, int health) {
 		super(name, weight, health);

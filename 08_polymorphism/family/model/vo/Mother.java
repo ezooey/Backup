@@ -1,6 +1,6 @@
 package com.kh.example.family.model.vo;
 
-public class Mother extends Family implements Basic{ //ºÎ¸ğ Å¬·¡½º·ÎºÎÅÍ »ó¼Ó ¹ŞÀº Ãß»ó¸Ş¼Òµå ¿Ï¼º½ÃÄÑ¾ß ÇÔ(±¸Çö ¹öÆ° Å¬¸¯ÇÑ ÈÄÀÓ)
+public class Mother extends Family implements Basic{ //ë¶€ëª¨ í´ë˜ìŠ¤ë¡œë¶€í„° ìƒì† ë°›ì€ ì¶”ìƒë©”ì†Œë“œ ì™„ì„±ì‹œì¼œì•¼ í•¨(êµ¬í˜„ ë²„íŠ¼ í´ë¦­í•œ í›„ì„)
 	private String babyBirth;
 	
 	public Mother() {}

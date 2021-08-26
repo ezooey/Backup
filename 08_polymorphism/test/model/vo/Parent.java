@@ -24,11 +24,11 @@ public class Parent {
 	}
 	
 	public void printParent() {
-		System.out.println("³ª ºÎ¸ğ¾ß");
+		System.out.println("ë‚˜ ë¶€ëª¨ì•¼");
 	}
 	
 	public void print() {
-		System.out.println("³ª ºÎ¸ğ¶ó´Ï±ñ?");
+		System.out.println("ë‚˜ ë¶€ëª¨ë¼ë‹ˆê¹?");
 	}
 
 }

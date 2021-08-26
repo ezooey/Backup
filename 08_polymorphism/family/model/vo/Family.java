@@ -1,6 +1,6 @@
 package com.kh.example.family.model.vo;
 
-// Ãß»óÅ¬·¡½º
+// ì¶”ìƒí´ë˜ìŠ¤
 public abstract class Family {
 	private String name;
 	private double weight;

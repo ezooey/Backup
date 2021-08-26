@@ -6,36 +6,36 @@ import com.kh.example.test.model.vo.Parent;
 
 public class PolyController {
 	public void method() {
-		System.out.println("1. ºÎ¸ğÅ¸ÀÔ ·¹ÆÛ·±½º·Î ºÎ¸ğ °´Ã¼ ´Ù·ç´Â °æ¿ì");
+		System.out.println("1. ë¶€ëª¨íƒ€ì… ë ˆí¼ëŸ°ìŠ¤ë¡œ ë¶€ëª¨ ê°ì²´ ë‹¤ë£¨ëŠ” ê²½ìš°");
 		Parent p1 = new Parent();
-		// ¤¤ºÎ¸ğÅ¸ÀÔ ·¹ÆÛ·±½º	¤¤ºÎ¸ğ°´Ã¼
+		// ã„´ë¶€ëª¨íƒ€ì… ë ˆí¼ëŸ°ìŠ¤	ã„´ë¶€ëª¨ê°ì²´
 		p1.printParent();
 		
-		System.out.println("2. ÀÚ½ÄÅ¸ÀÔ ·¹ÆÛ·±½º·Î ÀÚ½Ä °´Ã¼ ´Ù·ç´Â °æ¿ì");
+		System.out.println("2. ìì‹íƒ€ì… ë ˆí¼ëŸ°ìŠ¤ë¡œ ìì‹ ê°ì²´ ë‹¤ë£¨ëŠ” ê²½ìš°");
 		Child1 c1 = new Child1();
-		// ¤¤ÀÚ½ÄÅ¸ÀÔ ·¹ÆÛ·±½º	¤¤ÀÚ½Ä°´Ã¼
+		// ã„´ìì‹íƒ€ì… ë ˆí¼ëŸ°ìŠ¤	ã„´ìì‹ê°ì²´
 		c1.printChild1();
 		c1.printParent();
 		
-		System.out.println("3. ºÎ¸ğÅ¸ÀÔ ·¹ÆÛ·±½º·Î ÀÚ½Ä °´Ã¼ ´Ù·ç´Â °æ¿ì");
-		Parent p2 = new Child2();	// ´ÙÇü¼º Àû¿ë
-		//	¤¤ºÎ¸ğÅ¸ÀÔ ·¹ÆÛ·±½º	¤¤ÀÚ½Ä°´Ã¼
-		// ¾÷ Ä³½ºÆÃ : ºÎ¸ğÅ¸ÀÔÀÇ ÂüÁ¶Çü º¯¼ö°¡ ¸ğµç ÀÚ½Ä °´Ã¼¸¦ ¹ŞÀ» ¼ö ÀÖ´Â °Í
+		System.out.println("3. ë¶€ëª¨íƒ€ì… ë ˆí¼ëŸ°ìŠ¤ë¡œ ìì‹ ê°ì²´ ë‹¤ë£¨ëŠ” ê²½ìš°");
+		Parent p2 = new Child2();	// ë‹¤í˜•ì„± ì ìš©
+		//	ã„´ë¶€ëª¨íƒ€ì… ë ˆí¼ëŸ°ìŠ¤	ã„´ìì‹ê°ì²´
+		// ì—… ìºìŠ¤íŒ… : ë¶€ëª¨íƒ€ì…ì˜ ì°¸ì¡°í˜• ë³€ìˆ˜ê°€ ëª¨ë“  ìì‹ ê°ì²´ë¥¼ ë°›ì„ ìˆ˜ ìˆëŠ” ê²ƒ
 		p2.printParent();
 //		p2.printChild2();
-		((Child2)p2).printChild2(); 	// Parent±îÁö¸¸ º¸ÀÌ´ø ½Ã¾ß¸¦ Child2±îÁö º¸ÀÌ°Ô ÇØÁØ °Í
+		((Child2)p2).printChild2(); 	// Parentê¹Œì§€ë§Œ ë³´ì´ë˜ ì‹œì•¼ë¥¼ Child2ê¹Œì§€ ë³´ì´ê²Œ í•´ì¤€ ê²ƒ
 		
-		System.out.println("4. ÀÚ½ÄÅ¸ÀÔ ·¹ÆÛ·±½º·Î ºÎ¸ğ °´Ã¼ ´Ù·ç´Â °æ¿ì");
+		System.out.println("4. ìì‹íƒ€ì… ë ˆí¼ëŸ°ìŠ¤ë¡œ ë¶€ëª¨ ê°ì²´ ë‹¤ë£¨ëŠ” ê²½ìš°");
 //		Child2 c2 = new Parent();
-		// ¤¤ÀÚ½ÄÅ¸ÀÔ ·¹ÆÛ·±½º	¤¤ºÎ¸ğ°´Ã¼
+		// ã„´ìì‹íƒ€ì… ë ˆí¼ëŸ°ìŠ¤	ã„´ë¶€ëª¨ê°ì²´
 		
 		
 		System.out.println();
-		System.out.println("== °£´Ü ¿¹Á¦ ==");
+		System.out.println("== ê°„ë‹¨ ì˜ˆì œ ==");
 		System.out.println();
 		
 		Parent[] pArr = new Parent[4];
-		// ¾÷Ä³½ºÆÃÀÌ Àû¿ëµÈ »óÅÂ
+		// ì—…ìºìŠ¤íŒ…ì´ ì ìš©ëœ ìƒíƒœ
 		pArr[0] = new Child1();
 		pArr[1] = new Child2();
 		pArr[2] = new Child2();
@@ -47,12 +47,12 @@ public class PolyController {
 //		((Child1)pArr[3]).printChild1();
 		
 		for(int i = 0; i < pArr.length; i++) {
-			// instanceof ¿¬»êÀÚ : ÇöÀçÀÇ ÂüÁ¶Çü º¯¼ö°¡ ¾î¶² Å¬·¡½ºÇüÀÇ °´Ã¼¸¦ ÂüÁ¶ÇÏ°í ÀÖ´ÂÁö È®ÀÎÇÒ ¶§ »ç¿ë
-//			pArr[0] instanceof Child1	// pArr[0]¿¡ µé¾î°¡ ÀÖ´Â °´Ã¼°¡ Child1 Çü½ÄÀÌ´Ï? true
-//			pArr[1] instanceof Child2	// pArr[1]¿¡ µé¾î°¡ ÀÖ´Â °´Ã¼°¡ Child2 Çü½ÄÀÌ´Ï? true
-//			pArr[2] instanceof Child1	// pArr[2]¿¡ µé¾î°¡ ÀÖ´Â °´Ã¼°¡ Child1 Çü½ÄÀÌ´Ï? false
-//			pArr[3] instanceof Child2	// pArr[3]¿¡ µé¾î°¡ ÀÖ´Â °´Ã¼°¡ Child2 Çü½ÄÀÌ´Ï? false
-			// instnaceof ¿¬»êÀÚÀÇ °á°ú °ªÀº true/false -> Á¶°Ç½Ä¿¡ ¸¹ÀÌ »ç¿ë
+			// instanceof ì—°ì‚°ì : í˜„ì¬ì˜ ì°¸ì¡°í˜• ë³€ìˆ˜ê°€ ì–´ë–¤ í´ë˜ìŠ¤í˜•ì˜ ê°ì²´ë¥¼ ì°¸ì¡°í•˜ê³  ìˆëŠ”ì§€ í™•ì¸í•  ë•Œ ì‚¬ìš©
+//			pArr[0] instanceof Child1	// pArr[0]ì— ë“¤ì–´ê°€ ìˆëŠ” ê°ì²´ê°€ Child1 í˜•ì‹ì´ë‹ˆ? true
+//			pArr[1] instanceof Child2	// pArr[1]ì— ë“¤ì–´ê°€ ìˆëŠ” ê°ì²´ê°€ Child2 í˜•ì‹ì´ë‹ˆ? true
+//			pArr[2] instanceof Child1	// pArr[2]ì— ë“¤ì–´ê°€ ìˆëŠ” ê°ì²´ê°€ Child1 í˜•ì‹ì´ë‹ˆ? false
+//			pArr[3] instanceof Child2	// pArr[3]ì— ë“¤ì–´ê°€ ìˆëŠ” ê°ì²´ê°€ Child2 í˜•ì‹ì´ë‹ˆ? false
+			// instnaceof ì—°ì‚°ìì˜ ê²°ê³¼ ê°’ì€ true/false -> ì¡°ê±´ì‹ì— ë§ì´ ì‚¬ìš©
 			
 			if(pArr[i] instanceof Child1) {
 				((Child1)pArr[i]).printChild1();
@@ -65,8 +65,8 @@ public class PolyController {
 		
 		for(int i = 0; i < pArr.length; i++) {
 			pArr[i].print();	
-			// °®°í ÀÖ´Â °´Ã¼°¡ Child1 Child2¶óµµ Å¸ÀÔÀÌ Parent¶ó¼­ ParentÀÇ print¸¸ Ãâ·ÂµÉ °Å¶ó°í ¿¹»óÇßÀ¸³ª Á¦´ë·Î ³ª¿È
-			// -> µ¿Àû ¹ÙÀÎµù ½ÇÇàµÇ¾ú±â ¶§¹®
+			// ê°–ê³  ìˆëŠ” ê°ì²´ê°€ Child1 Child2ë¼ë„ íƒ€ì…ì´ Parentë¼ì„œ Parentì˜ printë§Œ ì¶œë ¥ë  ê±°ë¼ê³  ì˜ˆìƒí–ˆìœ¼ë‚˜ ì œëŒ€ë¡œ ë‚˜ì˜´
+			// -> ë™ì  ë°”ì¸ë”© ì‹¤í–‰ë˜ì—ˆê¸° ë•Œë¬¸
 		}
 	}
 	

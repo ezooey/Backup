@@ -2,17 +2,17 @@ package com.kh.example.family.model.vo;
 
 import java.io.Serializable;
 
-// ÀÎÅÍÆäÀÌ½º³¢¸® »ó¼Ó °¡´É : extends -> ´ÙÁß »ó¼Ó (ÀÎÅÍÆäÀÌ½º´Â ´ÙÁß »ó¼Óµµ °¡´É)
+// ì¸í„°í˜ì´ìŠ¤ë¼ë¦¬ ìƒì† ê°€ëŠ¥ : extends -> ë‹¤ì¤‘ ìƒì† (ì¸í„°í˜ì´ìŠ¤ëŠ” ë‹¤ì¤‘ ìƒì†ë„ ê°€ëŠ¥)
 public interface Basic extends Cloneable, Serializable {
 	//							Marker Interface
-	//							: ³»ºÎ¿¡ ¼±¾ğµÈ ¸Ş¼Òµå´Â ¾ø°í ÀÌ¸§¸¸ ÀÖ´Â ÀÎÅÍÆäÀÌ½º
-	// 							: ¸Ş¼Òµå ±¸Çö(¿Ï¼º)ÀÌ ¸ñÀûÀÌ ¾Æ´Ï¶ó Å¬·¡½ºÀÇ Æ¯¼ºÀ» ³ªÅ¸³»ÁÖ±â À§ÇÔ
+	//							: ë‚´ë¶€ì— ì„ ì–¸ëœ ë©”ì†Œë“œëŠ” ì—†ê³  ì´ë¦„ë§Œ ìˆëŠ” ì¸í„°í˜ì´ìŠ¤
+	// 							: ë©”ì†Œë“œ êµ¬í˜„(ì™„ì„±)ì´ ëª©ì ì´ ì•„ë‹ˆë¼ í´ë˜ìŠ¤ì˜ íŠ¹ì„±ì„ ë‚˜íƒ€ë‚´ì£¼ê¸° ìœ„í•¨
 	public static final double PI = 3.14;
-	String nation = "´ëÇÑ¹Î±¹";
-	// interface ¾È¿¡ ÀÖ´Â ÇÊµå´Â ¹¬½ÃÀûÀ¸·Î public static finalÀÌ´Ï±î »ı·« °¡´É
+	String nation = "ëŒ€í•œë¯¼êµ­";
+	// interface ì•ˆì— ìˆëŠ” í•„ë“œëŠ” ë¬µì‹œì ìœ¼ë¡œ public static finalì´ë‹ˆê¹Œ ìƒëµ ê°€ëŠ¥
 	
 	public abstract void eat();
 	void sleep();
-	// interface ¾È¿¡ ÀÖ´Â ¸Ş¼Òµå´Â ¹¬½ÃÀûÀ¸·Î public abstract´Ï±î »ı·« °¡´É
+	// interface ì•ˆì— ìˆëŠ” ë©”ì†Œë“œëŠ” ë¬µì‹œì ìœ¼ë¡œ public abstractë‹ˆê¹Œ ìƒëµ ê°€ëŠ¥
 
 }

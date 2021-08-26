@@ -17,12 +17,12 @@ public class Child1 extends Parent {
 	}
 	
 	public void printChild1() {
-		System.out.println("³ª Ã¹ ¹øÂ° ÀÚ½ÄÀÓ");
+		System.out.println("ë‚˜ ì²« ë²ˆì§¸ ìì‹ì„");
 	}
 	
 	@Override
 	public void print() {
-		System.out.println("³ª Ã¹ ¹øÂ° ÀÚ½ÄÀÌ¶ó´Ï±î?");
+		System.out.println("ë‚˜ ì²« ë²ˆì§¸ ìì‹ì´ë¼ë‹ˆê¹Œ?");
 	}
 
 }
