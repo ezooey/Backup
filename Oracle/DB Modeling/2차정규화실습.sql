@@ -1,0 +1,97 @@
+﻿CREATE TABLE `Untitled` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`Field`	VARCHAR(255)	NULL,
+	`Field2`	VARCHAR(255)	NULL,
+	`Field3`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `Untitled2` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`Key2`	VARCHAR(255)	NOT NULL,
+	`Key3`	VARCHAR(255)	NOT NULL,
+	`Field5`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `Untitled3` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`Field2`	VARCHAR(255)	NULL,
+	`Field`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `Untitled4` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`Field`	VARCHAR(255)	NULL,
+	`Field2`	VARCHAR(255)	NULL,
+	`Field3`	VARCHAR(255)	NULL,
+	`Field4`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `Untitled5` (
+	`Field`	VARCHAR(255)	NULL,
+	`Key2`	VARCHAR(255)	NOT NULL,
+	`Key`	VARCHAR(255)	NOT NULL,
+	`Field4`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `Untitled6` (
+	`Key`	VARCHAR(255)	NOT NULL,
+	`Field2`	VARCHAR(255)	NULL,
+	`Field`	VARCHAR(255)	NULL
+);
+
+ALTER TABLE `Untitled` ADD CONSTRAINT `PK_UNTITLED` PRIMARY KEY (
+	`Key`
+);
+
+ALTER TABLE `Untitled2` ADD CONSTRAINT `PK_UNTITLED2` PRIMARY KEY (
+	`Key`,
+	`Key2`,
+	`Key3`
+);
+
+ALTER TABLE `Untitled3` ADD CONSTRAINT `PK_UNTITLED3` PRIMARY KEY (
+	`Key`
+);
+
+ALTER TABLE `Untitled4` ADD CONSTRAINT `PK_UNTITLED4` PRIMARY KEY (
+	`Key`
+);
+
+ALTER TABLE `Untitled5` ADD CONSTRAINT `PK_UNTITLED5` PRIMARY KEY (
+	`Field`,
+	`Key2`,
+	`Key`
+);
+
+ALTER TABLE `Untitled6` ADD CONSTRAINT `PK_UNTITLED6` PRIMARY KEY (
+	`Key`
+);
+
+ALTER TABLE `Untitled2` ADD CONSTRAINT `FK_Untitled_TO_Untitled2_1` FOREIGN KEY (
+	`Key2`
+)
+REFERENCES `Untitled` (
+	`Key`
+);
+
+ALTER TABLE `Untitled2` ADD CONSTRAINT `FK_Untitled3_TO_Untitled2_1` FOREIGN KEY (
+	`Key3`
+)
+REFERENCES `Untitled3` (
+	`Key`
+);
+
+ALTER TABLE `Untitled5` ADD CONSTRAINT `FK_Untitled4_TO_Untitled5_1` FOREIGN KEY (
+	`Key2`
+)
+REFERENCES `Untitled4` (
+	`Key`
+);
+
+ALTER TABLE `Untitled5` ADD CONSTRAINT `FK_Untitled6_TO_Untitled5_1` FOREIGN KEY (
+	`Key`
+)
+REFERENCES `Untitled6` (
+	`Key`
+);
+
