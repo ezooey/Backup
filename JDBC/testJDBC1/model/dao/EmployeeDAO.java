@@ -3,6 +3,7 @@ package com.kh.model.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,37 +21,38 @@ public class EmployeeDAO {
 		ArrayList<Employee> list = null;
 		
 		
-		// µå¶óÀÌ¹ö°¡ Á¸ÀçÇÏ´ÂÁö Á¦´ë·Î µé¾î°¬´ÂÁö¸¦ È®ÀÎÇÏ±â À§ÇØ try~catch Ãß°¡
+		// ë“œë¼ì´ë²„ê°€ ì¡´ì¬í•˜ëŠ”ì§€ ì œëŒ€ë¡œ ë“¤ì–´ê°”ëŠ”ì§€ë¥¼ í™•ì¸í•˜ê¸° ìœ„í•´ try~catch ì¶”ê°€
 		try {
-			// 1. DB¿¡ ´ëÇÑ Driver µî·Ï : Class.forName("JDBC µå¶óÀÌ¹ö"); -> ¿À¶óÅ¬ÀÌ¸é ¿À¶óÅ¬ÀÌ µé¾î°¡¾ß ÇÑ´Ù´Â ¼Ò¸®
-			// DBMSÁ¾·ù¿¡ µû¶ó µå¶óÀÌ¹ö°¡ ´Ş¶óÁü
+			// 1. DBì— ëŒ€í•œ Driver ë“±ë¡ : Class.forName("JDBC ë“œë¼ì´ë²„"); -> ì˜¤ë¼í´ì´ë©´ ì˜¤ë¼í´ì´ ë“¤ì–´ê°€ì•¼ í•œë‹¤ëŠ” ì†Œë¦¬
+			// DBMSì¢…ë¥˜ì— ë”°ë¼ ë“œë¼ì´ë²„ê°€ ë‹¬ë¼ì§
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			// 2. µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á ÀÛ¾÷
-			// DriverManager : ConnectionÀ» ¸¸µé¾îÁÖ±â À§ÇÑ Å¬·¡½º
+			// 2. ë°ì´í„°ë² ì´ìŠ¤ ì—°ê²° ì‘ì—…
+			// DriverManager : ì§ì ‘ ê°ì²´ ìƒì„±ì´ ë¶ˆê°€ëŠ¥í•˜ê¸° ë•Œë¬¸ì— Connectionì„ ë§Œë“¤ì–´ì£¼ê¸° ìœ„í•œ í´ë˜ìŠ¤
 			//		DriverManager.getConnection(String url, String user, String password):Connection
-			//			Æ¯Á¤ DB¿¡ ¿¬°áµÈ Connection ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-			//				url : ¾î´À ÄÄÇ»ÅÍ DB¿¡ ¿¬°áÇÒ °ÍÀÎÁö
-			//				user : ¿¬°áÇÒ °èÁ¤ ÀÌ¸§
-			//				password : ¿¬°áÇÒ °èÁ¤ ºñ¹Ğ¹øÈ£
-			// Connection : DB¿Í ¿¬°áµÈ ±æ
+			//			íŠ¹ì • DBì— ì—°ê²°ëœ Connection ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+			//				url : ì–´ëŠ ì»´í“¨í„° DBì— ì—°ê²°í•  ê²ƒì¸ì§€
+			//				user : ì—°ê²°í•  ê³„ì • ì´ë¦„
+			//				password : ì—°ê²°í•  ê³„ì • ë¹„ë°€ë²ˆí˜¸
+			// Connection : DBì™€ ì—°ê²°ëœ ê¸¸
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", 
 														  "SCOTT", "SCOTT");
-			// jdbc:oracle:thin		-> jdbcµå¶óÀÌ¹ö°¡ thinÅ¸ÀÔÀÓ
-			// @127.0.0.1			-> Á¢±ÙÇÒ µ¥ÀÌÅÍº£ÀÌ½º°¡ ³» ÄÄÇ»ÅÍ¿¡ ÀÖÀ½(³» ÄÄÇ»ÅÍ¿¡ ´ëÇÑ ipÁÖ¼Ò)
-			// 1521:xe				-> Æ÷Æ®¹øÈ£¿Í xeÅ¸ÀÔ
+			// jdbc:oracle:thin		-> jdbcë“œë¼ì´ë²„ê°€ thiníƒ€ì…ì„
+			// @127.0.0.1			-> ì ‘ê·¼í•  ë°ì´í„°ë² ì´ìŠ¤ê°€ ë‚´ ì»´í“¨í„°ì— ìˆìŒ(ë‚´ ì»´í“¨í„°ì— ëŒ€í•œ ipì£¼ì†Œ)
+			// 1521:xe				-> í¬íŠ¸ë²ˆí˜¸ì™€ xeíƒ€ì…
 			
-			// 3. Äõ¸® ÀÛ¼º ¹× Äõ¸® Àü¼Û
-			// 4. Äõ¸® °á°ú °ª ¹Ş±â
-			String query = "SELECT * FROM EMP"; // SELECT¿¡ ¼¼¹ÌÄİ·Ğ ¾È ºÙ¿©µµ µÊ
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(query); // Äõ¸®¸¦ SELECT¹®À¸·Î º¸³Â±â ¶§¹®¿¡ ±× °á°ú°ªÀ» ÀúÀåÇÒ º¯¼ö
-			// -->¹Ù·Î È°¿ëÇÒ ¼ö ¾ø±â ¶§¹®¿¡ º¯È¯½ÃÄÑ¼­ Ãâ·ÂÇØÁà¾ß ÇÔ
+			// 3. ì¿¼ë¦¬ ì‘ì„± ë° ì¿¼ë¦¬ ì „ì†¡
+			// 4. ì¿¼ë¦¬ ê²°ê³¼ ê°’ ë°›ê¸°
+			String query = "SELECT * FROM EMP"; 
+			// DBì— ë³´ë‚¼ ë•Œ ìë™ìœ¼ë¡œ ì„¸ë¯¸ì½œë¡  ë¶™ê¸° ë•Œë¬¸ì— ì—¬ê¸°ì„œëŠ” SELECTì— ì„¸ë¯¸ì½œë¡  ì•ˆ ë¶™ì—¬ë„ ë¨
+			stmt = conn.createStatement(); // Connectioní´ë˜ìŠ¤ ì•ˆì˜ createStatement()ë©”ì†Œë“œ ì´ìš©
+			rset = stmt.executeQuery(query); // ì¿¼ë¦¬ë¥¼ SELECTë¬¸ìœ¼ë¡œ ë³´ëƒˆê¸° ë•Œë¬¸ì— ê·¸ ê²°ê³¼ê°’ì„ ì €ì¥í•  í´ë˜ìŠ¤ë¥¼ ë§Œë“  ê²ƒ
+			// -->ë‚´ìš©ì„ ë°”ë¡œ í™œìš©í•  ìˆ˜ ì—†ê¸° ë•Œë¬¸ì— ë³€í™˜ì‹œì¼œì„œ ì¶œë ¥í•´ì¤˜ì•¼ í•¨
 			
-			// 5. ¹Ş¾Æ¿Â °á°ú °ª º¯È¯
-			// ResultSet ¾È¿¡ 0~n°³ÀÇ ÇàÀÌ µé¾î°¡ ÀÖÀ» °¡´É¼ºÀÌ ÀÖ´Ù¸é while¹®À¸·Î ÁøÇà : ´ÙÀ½ °ªÀÌ ÀÖ´À³Ä ¾ø´À³Ä
-			// ResultSet ¾È¿¡ 0~1°³ÀÇ Çà¸¸ µé¾î°¡ ÀÖÀ» °¡´É¼ºÀÌ ÀÖ´Ù¸é if¹®À¸·Î ÁøÇà : ÇàÀÌ ÀÖ´À³Ä ¾ø´À³Ä
-			list = new ArrayList<>(); // Å¸ÀÔ Ãß·Ğ, µÚÀÇ Å¸ÀÔÀº »ı·«ÇØµµ µÊ
-			while(rset.next()) { // next():boolean ´ÙÀ½ ÇàÀÌ Á¸ÀçÇÑ´Ù¸é true¹İÈ¯
+			// 5. ë°›ì•„ì˜¨ ê²°ê³¼ ê°’ ë³€í™˜
+			// ResultSet ì•ˆì— 0~nê°œì˜ í–‰ì´ ë“¤ì–´ê°€ ìˆì„ ê°€ëŠ¥ì„±ì´ ìˆë‹¤ë©´ whileë¬¸ìœ¼ë¡œ ì§„í–‰ : ë‹¤ìŒ ê°’ì´ ìˆëŠëƒ ì—†ëŠëƒ
+			// ResultSet ì•ˆì— 0~1ê°œì˜ í–‰ë§Œ ë“¤ì–´ê°€ ìˆì„ ê°€ëŠ¥ì„±ì´ ìˆë‹¤ë©´ ifë¬¸ìœ¼ë¡œ ì§„í–‰ : í–‰ì´ ìˆëŠëƒ ì—†ëŠëƒ
+			list = new ArrayList<>(); // íƒ€ì… ì¶”ë¡ , ë’¤ì˜ íƒ€ì…ì€ ìƒëµí•´ë„ ë¨
+			while(rset.next()) { // next():boolean ë‹¤ìŒ í–‰ì´ ì¡´ì¬í•œë‹¤ë©´ trueë°˜í™˜
 				int empNo = rset.getInt("EMPNO");
 				String empName = rset.getString("ENAME");
 				String job = rset.getString("JOB");
@@ -59,8 +61,8 @@ public class EmployeeDAO {
 				int sal = rset.getInt("SAL");
 				int comm = rset.getInt("COMM");
 				int deptNo = rset.getInt("DEPTNO");
-//				--> ResultSetÀÇ ÄÃ·³¸íÀ» º¸´Â °ÍÀÌÁö Å×ÀÌºíÀ» º¸´Â °Ô ¾Æ´Ô
-//				--> ÄÃ·³¸í º°Äª ºÙ¾î ÀÖÀ¸¸é ±×°Íµµ µû¶óÁà¾ß ÇÔ
+//				--> ResultSetì˜ ì»¬ëŸ¼ëª…ì„ ë³´ëŠ” ê²ƒì´ì§€ í…Œì´ë¸”ì„ ë³´ëŠ” ê²Œ ì•„ë‹˜
+//				--> ì»¬ëŸ¼ëª… ë³„ì¹­ ë¶™ì–´ ìˆìœ¼ë©´ ê·¸ê²ƒë„ ë”°ë¼ì¤˜ì•¼ í•¨
 				
 				Employee emp = new Employee(empNo, empName, job, mgr, hireDate, sal, comm, deptNo);
 				list.add(emp);
@@ -72,20 +74,215 @@ public class EmployeeDAO {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally { // try~catch·Î Àâ±â Àü¿¡ close ÇØ¹ö¸®¸é ´êÀ» ¼ö ¾ø¾î¼­ ¸Ç µÚ¿¡ Ãß°¡ÇÔ
-			// 6. ÀÚ¿ø ¹İ³³ ¹× µ¥ÀÌÅÍ ¹İÈ¯(¼ø¼­´ë·Î)
+		} finally { // try~catchë¡œ ì¡ê¸° ì „ì— close í•´ë²„ë¦¬ë©´ ë‹¿ì„ ìˆ˜ ì—†ì–´ì„œ ë§¨ ë’¤ì— ì¶”ê°€í•¨
+			// 6. ìì› ë°˜ë‚© ë° ë°ì´í„° ë°˜í™˜(ìˆœì„œëŒ€ë¡œ)
 			try {
-//				finally ¾È¿¡ ÀÖ¾î¼­ »¡°£ÁÙ ¶ä -> Àü¿ªº¯¼ö·Î ÃÊ±âÈ­ÇØÁà¾ß ÇÔ
+//				finally ì•ˆì— ìˆì–´ì„œ ë¹¨ê°„ì¤„ ëœ¸ -> ì „ì—­ë³€ìˆ˜ë¡œ ì´ˆê¸°í™”í•´ì¤˜ì•¼ í•¨
 				rset.close(); 
 				stmt.close();
 				conn.close();
-//				ÀÌ°Íµéµµ µû·Î try~catch ÇØÁà¾ß »¡°£ÁÙ »ç¶óÁü
+//				ì´ê²ƒë“¤ë„ ë”°ë¡œ try~catch í•´ì¤˜ì•¼ ë¹¨ê°„ì¤„ ì‚¬ë¼ì§
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		return list;
+	}
+
+	public Employee selectEmployee(int empNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+//		Statement stmt = null;
+		ResultSet rset = null;
+		Employee emp = null;
+		
+		try {
+			// 1. DBì— ëŒ€í•œ Driver
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2. DBì™€ ì—°ê²° : DriverManagerë¥¼ í†µí•œ Connectionê°ì²´ ìƒì„±
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SCOTT", "SCOTT");
+			// 127 ëŒ€ì‹  localhostë¼ê³  í•´ë„ ë¨
+			
+			// 3. query ì‘ì„± ë° ì „ì†¡
+			String query = "SELECT * FROM EMP WHERE EMPNO = ?";
+//			String query = "SELECT * FROM EMP WHERE EMPNO =" + empNo;
+			pstmt = conn.prepareStatement(query); 
+			// ë¹ˆ ê³³ì„ ì±„ìš°ê¸° ìœ„í•´ ì¿¼ë¦¬ë¥¼ ë¨¼ì € ë³´ë‚´ê³  ì‹œì‘í•˜ê¸° ë•Œë¬¸ì— ì „ì†¡í•  ë•ŒëŠ” ì•ˆ ì¨ë„ ë¨(stmtë‘ ì°¨ì´ì )
+			pstmt.setInt(1, empNo);
+			rset = pstmt.executeQuery(); // ì—¬ê¸°ì„œ query ì•ˆ ì¨ì¤˜ë„ ëœë‹¤ (10ì‹œ 48ë¶„)
+//			stmt = conn.createStatement(); 
+//			rset = stmt.executeQuery(query)
+			
+			// 4. ê²°ê³¼ ê°’ ë³€í™˜ : ResultSet ì•ˆì—ëŠ” ìµœëŒ€ 1ê°œì˜ í–‰ì´ ë“¤ì–´ê°€ ìˆì„ ê²ƒì´ë¯€ë¡œ if ì‚¬ìš©
+			if(rset.next()) {
+//				int empNo = rset.getInt("empno"); // ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ì˜¨ empNoë¡œ ëŒ€ì²´ ì‚¬ìš©í•˜ê¸° ë•Œë¬¸ì— ì•ˆ í•´ì¤˜ë„ ë¨
+				String empName = rset.getString("ENAME"); // ëŒ€ì†Œë¬¸ì ìƒê´€ì—†ìŒ
+				String job = rset.getString("JOB");
+				int mgr = rset.getInt("MGR");
+				Date hireDate = rset.getDate("HIREDATE");
+				int sal = rset.getInt("SAL");
+				int comm = rset.getInt("COMM");
+				int deptNo = rset.getInt("DEPTNO");
+				
+				emp = new Employee(empNo, empName, job, mgr, hireDate, sal, comm, deptNo);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// 5. ìì› ë°˜ë‚© ë° ë°ì´í„° ë°˜í™˜
+				rset.close();
+				pstmt.close();
+//				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return emp;
+		
+	}
+
+	public int insertEmployee(Employee emp) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SCOTT", "SCOTT");
+			conn.setAutoCommit(false); 
+			// ìë™ì»¤ë°‹ ë¹„í™œì„±í™”(ì›ì¹˜ ì•Šì„ ë•Œ ìë™ì»¤ë°‹ë  ìˆ˜ ìˆê¸° ë•Œë¬¸ì— íŠ¸ëœì­ì…˜ ê¶Œí•œì„ ì»´í“¨í„°ê°€ ì•„ë‹Œ ì‚¬ìš©ìì—ê²Œ ìœ„ì„)
+			
+//			String query = "INSERT INTO EMP VALUES(" + emp.getEmpNo() + ", " 
+//													 + emp.getEmpName() + ", " 
+//													 + emp.getJob() + ", " 
+//													 + emp.getMgr() + ", sysdate, " 
+//													 + emp.getSal() + ", " 
+//													 + emp.getComm() + ", " 
+//													 + emp.getDeptNo() + ")";
+			String query = "INSERT INTO EMP VALUES(?, ?, ?, ?, SYSDATE, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, emp.getEmpNo());
+			pstmt.setString(2, emp.getEmpName());
+			pstmt.setString(3, emp.getJob());
+			pstmt.setInt(4, emp.getMgr());
+			pstmt.setInt(5, emp.getSal());
+			pstmt.setInt(6, emp.getComm());
+			pstmt.setInt(7, emp.getDeptNo());
+			
+			// SELECTë¬¸ì„ ì‚¬ìš©í•œ ì¿¼ë¦¬ëŠ” executeQuery()ë¥¼ ì´ìš©í•´ì„œ ResultSetì„ ë°˜í™˜í•œë‹¤
+			
+			// SELECT - executeQuery() - ResultSet
+			// DML(INSERT, UPDATE, DELETE) - executeUpdate() -> int ëª‡ê°œì˜ í–‰ì„ ì²˜ë¦¬í–ˆëŠ”ì§€ ë‚˜íƒ€ë‚´ì£¼ê¸° ë•Œë¬¸ì—
+			// ex) ì˜¤ë¼í´ì—ì„œ '1 í–‰ ì´(ê°€) ì‚½ì…ë˜ì—ˆìŠµë‹ˆë‹¤' ì™€ ê°™ì€ ì•ˆë‚´ë¬¸êµ¬ ì¶œë ¥ì‹œ í•„ìš”
+			result = pstmt.executeUpdate();
+			if(result > 0) {
+				conn.commit();
+			} else {
+				conn.rollback(); // commitê³¼ rollback ë‘˜ ë‹¤ SQLExceptionì„ ìœ„ì„í•œë‹¤
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public int updateEmployee(Employee e) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SCOTT", "SCOTT");
+			conn.setAutoCommit(false);
+			
+			String query = "UPDATE EMP SET JOB = ?, SAL = ?, COMM = ? WHERE EMPNO = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, e.getJob());
+			pstmt.setInt(2, e.getSal());
+			pstmt.setInt(3, e.getComm());
+			pstmt.setInt(4, e.getEmpNo());
+			
+			result = pstmt.executeUpdate();
+			if(result > 0) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public int deleteEmployee(int empNo) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SCOTT", "SCOTT");
+			conn.setAutoCommit(false);
+			
+			String query = "DELETE FROM EMP WHERE EMPNO = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, empNo);
+			
+			result = pstmt.executeUpdate();
+			if(result > 0) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 
 }

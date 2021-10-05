@@ -3,14 +3,14 @@ package com.kh.model.vo;
 import java.sql.Date;
 
 public class Employee {
-	private int empNo; // »ç¹ø
-	private String empName; // ÀÌ¸§
-	private String job; // Á÷Ã¥
-	private int mgr; // Á÷¼Ó »ó»ç(manager)
-	private Date hireDate; // java.sql.Date // °í¿ëÀÏ
-	private int sal; // ±Ş¿©
-	private int comm; // Ä¿¹Ì¼Ç(ÀÎ¼¾Æ¼ºê)
-	private int deptNo; // ºÎ¼­¹øÈ£
+	private int empNo; // ì‚¬ë²ˆ
+	private String empName; // ì´ë¦„
+	private String job; // ì§ì±…
+	private int mgr; // ì§ì† ìƒì‚¬(manager)
+	private Date hireDate; // java.sql.Date // ê³ ìš©ì¼
+	private int sal; // ê¸‰ì—¬
+	private int comm; // ì»¤ë¯¸ì…˜(ì¸ì„¼í‹°ë¸Œ)
+	private int deptNo; // ë¶€ì„œë²ˆí˜¸
 	
 	public Employee() {}
 	public Employee(int empNo, String empName, String job, int mgr, 
@@ -24,7 +24,7 @@ public class Employee {
 		this.comm = comm;
 		this.deptNo = deptNo;
 	}
-	public Employee(int empNo, String empName, String job, int mgr, int sal, int comm, int deptNO) {
+	public Employee(int empNo, String empName, String job, int mgr, int sal, int comm, int deptNo) {
 		this.empNo = empNo;
 		this.empName = empName;
 		this.job = job;

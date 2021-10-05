@@ -6,7 +6,7 @@ public class Run {
 
 	public static void main(String[] args) {
 		new Menu().mainMenu();
-//		----------new¿¬»êÀÚ + ±âº»»ı¼ºÀÚ ·Î °´Ã¼»ı¼º
+//		----------newì—°ì‚°ì + ê¸°ë³¸ìƒì„±ì ë¡œ ê°ì²´ìƒì„±
 
 	}
 
