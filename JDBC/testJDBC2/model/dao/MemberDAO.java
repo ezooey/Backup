@@ -119,7 +119,6 @@ public class MemberDAO {
 		
 		
 		try {
-//			query += " '%'" + id + "%'";
 			pstmt = conn.prepareStatement(query);
 //			pstmt.setString(1, id);
 			pstmt.setString(1, "%" + id + "%");
@@ -198,6 +197,85 @@ public class MemberDAO {
 		}
 		
 		return list;
+	}
+
+	public int checkMember(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("checkMember");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberId);
+			rset = pstmt.executeQuery();
+			
+			//rset의 결과는 무조건 1개의 행이 나옴(숫자 0이 한 개의 행에 담길 수도 있고 숫자 8이 한 개의 행에 담길 수도 있기 때문에)
+			// --> count의 결과임
+			
+			if(rset.next()) {
+//				result = rset.getInt("count(*)");
+				result = rset.getInt(1); // index 이용해서 1번 컬럼을 불러온 것 
+				// rset.getString("member_id") 대신임
+				// int columIndex와 String columnLabel이 있음
+				// 하나만 가져올 것이기 때문에 1번 인덱스만 써줘도 상관없는 것 (컬럼명으로 쓰는 걸 권장)
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateMember(Connection conn, String memberId, String input, int sel) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+//		String query = prop.getProperty("updateMember");
+		// UPDATE MEMBER SET ? = ? WHERE MEMBER_ID = ?
+		// --> 이렇게 하면 pstmt에서 위치홀더를 ' '로 묶는 특성 때문에 
+		// 첫 번째 위치홀더 자리인 컬럼명도 ' '로 감싸는 형태가 됨
+		
+//		updateMember1=UPDATE MEMBER SET MEMBER_PWD = ? WHERE MEMBER_ID = ?
+//		이런 식으로 쿼리 작성해야 한다
+		String query = prop.getProperty("updateMember" + sel);
+		// sel로 경우를 나눠 쿼리 작성해야 한다
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, input);
+			pstmt.setString(2, memberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteMember(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteMember");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 }

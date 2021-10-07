@@ -2,6 +2,7 @@ package com.kh.model.service;
 
 import static com.kh.common.JDBCTemplate.commit;
 import static com.kh.common.JDBCTemplate.rollback;
+import static com.kh.common.JDBCTemplate.close;
 import static com.kh.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
@@ -58,4 +59,48 @@ public class MemberService {
 		
 		return list;
 	}
+
+	public int checkMember(String memberId) {
+		Connection conn = getConnection();
+		
+		int result = mDAO.checkMember(conn, memberId);
+		
+		return result;
+	}
+
+	public int updateMember(String memberId, String input, int sel) {
+		Connection conn = getConnection();
+		
+		int result = mDAO.updateMember(conn, memberId, input, sel);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
+		
+	}
+
+	public int deleteMember(String memberId) {
+		Connection conn = getConnection();
+		
+		int result = mDAO.deleteMember(conn, memberId);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
+	}
+	
+	public void exitProgram() {
+		Connection conn = getConnection();
+		close(conn);
+	}
+
+
 }
