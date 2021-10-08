@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>2_목록관련</title>
+</head>
+<body>
+	<h2>순서 없는 목록 태그 : ul(unordered list)</h2>
+	<h3>화면 구현 수업 내용</h3>
+	<ul>
+		<li>
+			HTML5
+			<ul>
+				<li>글자관련</li>
+				<li>목록관련</li>
+			</ul> 
+			<!-- 불렛 안에 불렛을 또 넣으면 불렛의 모양이 바뀜; CSS에서 모양 바꿀 수 있음 -->
+		</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>
+	</ul>
+	
+	<h2>순서 있는 목록 태그 : ol(ordered list)</h2>
+	<h3>화면 구현 수업 내용</h3>
+	<ol>
+		<li>
+			HTML5
+			<ol>
+				<li>글자관련</li>
+				<li>목록관련</li>
+			</ol>
+			<!-- 똑같이 1, 2가 순서불렛 안에 들어감 -->
+		</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+		
+	<h3>속성 변경 연습</h3>
+	<h4>영문 소문자로 표기</h4>
+	<ol type="a"> <!-- a가 아니라 다른 소문자를 넣으면 아예 알파벳이 안 나옴 -->
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	<h4>영문 대문자로 표기</h4>
+	<ol type="A">
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	<h4>로마 숫자 소문자로 표기</h4>
+	<ol type='i'>
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	<h4>로마 숫자 대문자로 표기</h4>
+	<ol type='I'>
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	<h4>시작 값 변경하기</h4>
+	<ol start='3'>
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	<h4>숫자 및 시작 값 변경</h4> <!-- e f g h -->
+	<ol type='a' start='5'>
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	<h4>역순으로 항목 표시</h4>
+	<ol reversed>
+		<li>HTML5</li>
+		<li>CSS3</li>
+		<li>JavaScript</li>
+		<li>jQuery</li>	
+	</ol>
+	
+	<h2>설명 목록 태그</h2>
+	<dl>
+		<dt>이곳은 목록의 제목을 적는 곳입니다.</dt>
+		<dd>이곳은 목록에 대한 설명을 적는 곳입니다.</dd> <!-- dd에는 들여쓰기가 들어간다 -->
+		<dd>여러 줄을 작성할 수 있습니다.</dd>
+		<dt>또 다른 목록의 제목을 넣어 새로운 목록을 만들 수 있습니다.</dt>
+		<dd>새로운 목록에 대한 설명을 추가로 달 수 있으며</dd>
+		<dd>여기 역시도 여러 줄 작성 가능합니다.</dd>
+		<dd>목록 별로 설명이 들어가는 행 개수를 다르게 적을 수 있습니다.</dd>
+	</dl>
+	
+</body>
+</html>
