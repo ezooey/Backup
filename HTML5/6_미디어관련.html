@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>6_미디어관련</title>
+</head>
+<body>
+	<h1>미디어 관련 태그</h1>
+	<h3>오디오 관련 태그</h3>
+	<audio src="sample/audio/song.mp3"></audio>
+	<audio src="sample/audio/song.mp3" controls></audio>
+	<audio src="sample/audio/song.mp3" controls autoplay></audio>
+	<!-- 익플에서만 기능함 -->
+	<audio src="sample/audio/song.mp3" controls autoplay loop></audio>
+	<!-- 반복은 크롬에서도 가능 -->
+	
+	<h3>비디오 관련 태그</h3>
+	<video src="sample/video/bear.mp4"></video>
+	<video src="sample/video/bear.mp4" controls></video>
+	<video src="sample/video/bear.mp4" controls autoplay></video>
+	<!-- 익플에서만 가능 -->
+	<video src="sample/video/bear.mp4" controls autoplay loop></video>
+	<!-- 크롬에서 가능 -->
+	<video src="sample/video/bear.mp4" controls preload="auto"></video>
+	<!-- 자동으로 미리 로드함 -->
+	<video src="sample/video/bear.mp4" controls preload="metadata"></video>
+	<!-- 필요한 것만 미리 로드함 -->
+	<video src="sample/video/bear.mp4" controls preload="none"></video>
+	<!-- 아무것도 미리 로드하지 않음 -->
+	
+</body>
+</html>
