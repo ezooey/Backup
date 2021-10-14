@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Practice1_bookCategorySelect</title>
+<style>
+	fieldset{width: 600px; height: 70px;}
+	.category{width: 626px; height: 130px; border: 1px solid red;}
+</style>
+</head>
+<body>
+	<h1>Practice1</h1>
+	<br>
+	<form>
+		<fieldset>
+			<legend>취미</legend>
+			<table>
+				<tr>
+					<td><input type="checkbox" value="전체선택" id="all" onclick="selectAll();">전체선택</td>
+					<td><input type="checkbox" name="hobby" value="종합" id="overall" onclick="selectOne();">종합</td>
+					<td><input type="checkbox" name="hobby" value="소설" id="novel" onclick="selectOne();">소설</td>
+					<td><input type="checkbox" name="hobby" value="시/에세이" id="poem" onclick="selectOne();">시/에세이</td>
+					<td><input type="checkbox" name="hobby" value="경제/경영" id="economy" onclick="selectOne();">경제/경영</td>
+					<td><input type="checkbox" name="hobby" value="자기계발" id="self" onclick="selectOne();">자기계발</td>
+					<td><input type="checkbox" name="hobby" value="아동" id="children" onclick="selectOne();">아동</td>
+					
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="checkbox" name="hobby" value="여행" id="travel" onclick="selectOne();">여행</td>
+					<td><input type="checkbox" name="hobby" value="과학" id="science" onclick="selectOne();">과학</td>
+					<td><input type="checkbox" name="hobby" value="역사/문화" id="history" onclick="selectOne();">역사/문화</td>
+					<td><input type="checkbox" name="hobby" value="외국어" id="foreign" onclick="selectOne();">외국어</td>
+					<td><input type="checkbox" name="hobby" value="컴퓨터" id="computer" onclick="selectOne();">컴퓨터</td>
+					<td><input type="checkbox" name="hobby" value="만화" id="cartoon" onclick="selectOne();">만화</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+		<br>
+		<button onclick="cateSelect();">카테고리 선택</button>
+		<div id="category" class="category"></div>
+		<script>
+			var all = document.getElementById('all');
+			var hobby = document.getElementsByName('hobby');
+
+			function selectAll(){
+				
+				for(var i = 0; i < hobby.length; i++){
+					if(all.checked){
+						hobby[i].checked = true;
+					} else {
+						hobby[i].checked = false;
+					}
+				}
+				
+// 				for(var i = 0; i < hobby.length; i++){
+// 					if(all.checked == true){
+// 						hobby[i].checked == true;
+// 					} else if(hobby[i].checked == false){
+// 						hobby[0].checked == false;
+// 					}
+// 				}
+			}
+			
+			function selectOne(){
+				var count = 0;
+				
+				for(var i = 0; i < hobby.length; i++){
+					if(hobby[i].checked){
+						count++;
+					}
+				}
+				
+				if(count == 12){
+					all.checked = true;
+				} else {
+					all.checked = false;
+				}
+			}
+			
+			function cateSelect(){
+				console.log(hobby);
+				
+				var checkBook = '';
+				for(var i = 0; i < hobby.length; i++){
+					if(hobby[i].checked){
+						checkBook += hobby[i].value + " ";
+					}
+				}
+				document.getElementById('category').innerHTML = checkBook;
+			}
+		</script>
+</body>
+</html>

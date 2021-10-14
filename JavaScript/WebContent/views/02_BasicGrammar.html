@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>02_BasicGrammar</title>
+</head>
+<body>
+	<h1>기본 문법</h1>
+	<h2>변수와 자료형</h2>
+	<h3>변수 선언</h3>
+	<p>
+		함수 내부에서 'var 변수명;'으로 선언하면 지역변수가 됨<br>
+		함수 내부에서 '변수명;'으로 선언하거나 함수 밖에서 '변수명;' 혹은 'var 변수명;'으로 선언하면 전역변수가 됨<br>
+		전역변수와 지역변수가 동일한 이름일 경우 함수 내부에서 변수명을 호출하면 지역변수가 우선권을 가짐<br>
+		전역변수 사용 시 'window.변수명' 혹은 'this.변수명'으로 표현하여 지역변수와 구분<br>
+		전역변수는 해당 window내에서 어디든 사용할 수 있으며 지역변수는 해당 함수 내에서만 사용 가능
+	</p>
+	<script>
+		// 한 줄 주석
+		/* 
+			여러 줄
+			주석
+		*/
+		str1 = "전역변수";
+		var str2 = "var전역변수";
+		
+		window.onload = function(){
+			/* 
+			자바스크립트에서 페이지가 로드되면 자동으로 실행되는 함수
+			한페이지에서 한 번만 실행 가능 (나중에 jQuery에서 보완 가능)
+			*/
+			var str1 = "지역변수1";
+			var str3 = "지역변수2";
+			
+			console.log('str1 : ' + str1); // 지역변수1(함수 안에서 지역변수 우선)
+			console.log('this.str1 : ' + this.str1); // 전역변수
+			console.log('window.str1 : ' + window.str1); // 전역변수
+
+			console.log('str2 : ' + str2); // var전역변수
+			console.log('this.str2 : ' + this.str2); // var전역변수
+			console.log('window.str2 : ' + window.str2); // var전역변수
+
+			console.log('str3 : ' + str3); // 지역변수2
+			console.log('this.str3 : ' + this.str3); // undefined
+			console.log('window.str3 : ' + window.str3); // 
+			
+			what = '난 뭘까?'; //함수 안이지만 var를 붙이지 않아서 전역변수가 됨
+			showWhat();
+		}
+		function showWhat(){
+			console.log(what); // 난 뭘까?
+			console.log(this.what); // 난 뭘까?
+			console.log(window.what); // 난 뭘까?
+		}
+	</script>
+	
+	<h3>자료형</h3>
+	<p>자바스크립트에서는 자료형 별로 변수 타입이 지정되지 않고 리터럴에 의해 자료형 결정</p>
+	<button onclick="typeTest();">자료형 테스트</button>
+	<script>
+		function typeTest(){
+			var name = '박신우'; // 문자열
+			var age = 20; // 숫자
+			var check = true; // 논리 값
+			var hobby = ['축구', '농구', '야구']; // 배열(대괄호 사용)
+			var user = {
+					name: '박신우',
+					age: 20,
+					id: 'user01'
+			}; //객체(중괄호 사용)
+			var testFunction = function(num1, num2){
+				var sum = num1 + num2;
+				alert(sum);
+			} // 함수
+			
+			// typeof연산자 : 값의 자료형을 확인하는 연산자
+			console.log(name);
+			console.log(typeof(name));
+			console.log(age);
+			console.log(typeof age);
+			console.log(check);
+			console.log(typeof check);
+			console.log(hobby);
+			console.log(typeof hobby); // 배열도 object로 여겨짐(그 중의 array일 뿐)
+			console.log(user);
+			console.log(typeof user);
+			console.log(testFunction);
+			console.log(typeof testFunction);
+		} 
+	</script>
+	
+	<h2>데이터 형변환</h2>
+	<h3>문자열과 숫자의 +연산</h3>
+	<button onclick="testPlus();">문자열과 숫자의 +연산</button>
+	<script>
+		function testPlus(){
+			console.log(7 + 7); // 14(콘솔에서 문자열과 색이 다르게 나와서 구분 가능)
+			console.log('7' + 7); // 77
+			console.log(7 + '7'); // 77
+			console.log('7' + '7'); // 77
+			console.log(7 + 7 + '7'); // 147
+			console.log(7 + '7' + 7); // 777
+			console.log('7' + 7 + 7); // 777
+			console.log('7' + (7 + 7)); // 714
+		}
+	</script>
+	<h3>강제 형변환</h3>
+	<p>Number(), parseInt(), parseFloat()</p>
+	<button onclick="castingTest();">casting Test</button>
+	<script>
+		function castingTest(){
+			var num1 = 2;
+			var num2 = '3';
+			
+			console.log(num1 + num2); // 23
+			console.log(num1 + Number(num2)); // 5
+			console.log(num1 + parseInt(num2)); // 5
+			console.log(num1 + parseFloat(num2)); // 5
+		} 
+	</script>
+	
+	<h2>연산자</h2>
+	<h3>자바와 다른 연산자</h3>
+	<h4>===연산자와 !==연산자</h4>
+	<p>값과 자료형 둘 다 일치하는지/일치하지 않는지 확인</p>
+	<button onclick="opTest();">연산자 확인</button>
+	<script>
+		function opTest(){
+			var check1 = 1;
+			var check2 = '1';
+			
+			console.log(check1 == 1); // true
+			console.log(check2 == '1'); // true
+			console.log(check1 == '1'); // true(이 정도 다른 자료형은 어느 정도 수용함)
+			console.log(check2 == 1); // true
+			
+			console.log(check1 === 1); // true
+			console.log(check2 === '1'); // true
+			console.log(check1 === '1'); // false
+			console.log(check2 === 1);
+		}
+	</script>
+	
+	<h2>조건문과 반복문</h2>
+	<h3>조건문</h3>
+	<h4>if</h4>
+	<button onclick="ifTest();">if버튼</button>
+	<script>
+		function ifTest(){
+			// 성별을 묻는 알림창을 이용하여 사용자에게 성별을 받아옴(남자/여자)
+			// 남자면 "XY입니다", 여자면 "XX입니다", 둘 다 아니면 "잘못 입력하였습니다"를 알림창으로 출력
+			var gender = prompt('성별을 입력해주세요', '남자/여자'); // 두번째 인자는 자동으로 들어가 있음
+			console.log(gender);
+			
+			if(gender == '남자'){
+				alert('XY입니다');
+			} else if(gender == '여자') {
+				alert('XX입니다');
+			} else {
+				alert('잘못 입력하였습니다.');
+			}
+		}
+	</script>
+	<h4>switch</h4>
+	<button onclick="switchTest();">switch버튼</button>
+	<script>
+		function switchTest(){
+			// "현재는 몇월입니까?" 라는 질문이 담긴 알림창으로 숫자를 받아옴
+			// 각 달에 맞게 "m월은 n일까지입니다"를 알림창으로 출력
+			// 단, 달을 잘못 입력하는 경우는 없다고 가정
+			// ex. 10 입력 -> 10월은 31까지입니다.
+			var month = Number(prompt('현재는 몇월입니까?'));
+			var day;
+			
+			switch(month){
+			case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+				day = 31; break;
+			case 4: case 6: case 9: case 11:
+				day = 30; break;
+			case 2:
+				day = 28; break;
+			}
+			alert(month + '월은 ' + day + '일까지입니다.');
+		}
+	</script>
+	
+	<h3>반복문</h3>
+	<h4>for</h4>
+	<button onclick="forTest();">for버튼</button>
+	<script>
+		function forTest(){
+			var result = '';
+			
+			for(i = 1; i <= 10; i++){
+				result += i + ' ';
+			}
+			alert('for : ' + result);
+		}
+	</script>
+	
+	<h4>while</h4>
+	<button onclick="whileTest();">while버튼</button>
+	<script>
+		function whileTest(){
+			var result = '';
+			var i = 1;
+			while(i <= 10){
+				result += i + ' ';
+				i++;
+			}
+			alert('while : ' + result);
+		}
+	</script>
+	<h4>for in</h4>
+	<button onclick="forinTest();">for in버튼</button>
+	<script>
+		function forinTest(){
+			var result = '';
+			var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// 			for(var i = 0; i < array.length; i++){
+// 				result += array[i] + " ";
+// 			}
+// 			console.log('for : ' + result);
+			
+// 			var i = 0;
+// 			result = '';
+// 			while(i < array.length){
+// 				result += array[i] + " ";
+// 				i++;
+// 			}
+// 			console.log('while : ' + result);
+			
+// 			for(int num : array){}과 유사
+			for(var i in array){
+				console.log(i); // 인덱스가 나옴
+				result += array[i] + " ";
+			}
+			alert('for in : ' result);
+		}
+	</script>
+</body>
+</html>
