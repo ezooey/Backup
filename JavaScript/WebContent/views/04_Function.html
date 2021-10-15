@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>04_Function</title>
+</head>
+<body>
+	<h1>함수</h1>
+	<h2>함수 선언</h2>
+	<h3>선언적 함수</h3>
+	<p>function키워드에 함수명을 작성하여 사용하는 방법</p>
+	<button onclick="test1();">실행확인</button>
+	<script>
+		function test1(){
+			alert('test1()함수 실행');
+		}
+	</script>
+	<h3>익명 함수</h3>
+	<p>함수명을 작성하지 않고 변수에 대입하는 방법</p>
+	<button onclick="test2();">실행확인</button>
+	<script>
+		var test2 = function(){ // 변수에 담아줘야 오류 안 남
+			alert('test2()함수 실행');
+		}
+	</script>
+	<h3>스스로 동작하는 함수</h3>
+	<p>호출이 따로 필요 없음</p>
+	<script>
+		(function(){
+			console.log('자동으로 혼자 실행');
+		})(); // 12시 35분
+	</script>
+	
+	<h2>함수 전달인자와 매개변수</h2>
+	<h3>매개인자로 전달하기</h3>
+	<button onclick="test3();">실행확인</button>
+	<script>
+		function test3(){
+// 			test4(prompt('메세지를 입력하세요.')); 
+			// test4함수로 넘겨서 그 밸류를 test4에서 출력
+			
+			test4('안녕하세요', '반갑습니다');
+			// 지정된 매개변수보다 많은 인자를 넣어 호출하는 것을 허용함
+			// 단, 초과된 매개변수는 무시됨
+			
+			test4(); // undefined
+			// 지정된 매개변수보다 적은 인자를 넣어 호출하는 것을 허용함
+			// 단, 전달이 안 된 매개변수는 undefined
+		}
+		
+		function test4(value){
+			console.log(value);
+		}
+	</script>
+	
+	<h3>매개인자로 스스로를 전달하기</h3>
+	<p></p>
+	<button onclick="test5('JavaScript');">JavaScript</button>
+	<button onclick="test5('jQuery');">jQuery</button>
+	<script>
+		function test5(subject){
+			alert('오늘 배울 내용은 ' + subject + '입니다.');
+			
+		}
+	</script>
+	<button onclick="test5_1(this);">JavaScript</button>
+	<!-- this는 이 코드 자체, this가 들어 있는 '나'를 뜻하는 것임 -->
+	<button onclick="test5_1(this);">jQuery</button>
+	<script>
+		function test5_1(value){
+			console.log(value); // 66번줄과 68번줄 나옴
+			console.log(value.innerHTML); // JavaScript와 jQuery 나옴
+			var subject = value.innerHTML; 
+			// 서브젝트 변수에 각각 innerHTML넣어서 아래 알림창에서 실행되게 함
+			alert('오늘 배울 내용은 ' + subject + '입니다.');
+		}
+	</script>
+	
+	<h3>함수의 리턴처리</h3>
+	<button onclick="test6();">실행확인</button>
+	<script>
+		function test6(){
+			var value = returnTest();
+			console.log(value); // 계속 찍을 수 있음
+		}
+		function returnTest(){ // 반환형 없이 return만 넣어주면 반환값 형성됨
+			return Math.floor(Math.random() * 100 + 1);
+		}
+	</script>
+	
+	<h3>가변인자 함수</h3> <!-- 매개변수의 개수를 정하지 않고 사용 가능 ex.(java의)printf -->
+	<button onclick="test7();">실행확인</button>
+	<script>
+		function test7(){
+			var sum1 = sumAll(11, 22, 33, 44, 55);
+			var sum2 = sumAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+			console.log('sum1 : ' + sum1);
+			console.log('sum2 : ' + sum2); 
+		}
+		function sumAll(){
+			console.log(arguments); 
+			// 굳이 매개변수를 쓰지 않고도 arguments에 각각의 배열로 존재하게 됨(가변인자)
+			// 매개변수가 몇개이든 arguments를 통해 사용 가능
+			console.log(arguments.length);
+			
+			var sum = 0;
+			for(var i in arguments){
+				sum += arguments[i]
+			}
+			return sum;
+		}
+	</script>
+	
+	<h3>매개변수로 함수 전달</h3>
+	<button onclick="test8(calledFunction);">실행확인</button>
+	<script>
+		function test8(f){
+			console.log(f); // calledFunction(i) 함수 자체가 출력됨
+// 			for(var i = 1; i <= 10; i++){
+// 				calledFunction(i);
+// 			}
+			for(var i = 1; i <= 10; i++){
+				f(i); // 호출된 함수에 i만 넣어주면 됨
+			}
+		}
+		
+		function calledFunction(i){
+			console.log(i + "번째 함수 호출");
+		}
+	</script>
+	
+	<h2>내장함수</h2>
+	<h3>eval()</h3>
+	<p>문자열을 자바스크립트 코드로 변환해 실행</p>
+	계산식 : <input type="text" id="test1"><button onclick="test9();">실행확인</button><br>
+	숫자1 : <input type="text" id="num1"><br>
+	숫자2 : <input type="text" id="num2"><button onclick="test10();">실행확인</button>
+	<script>
+		function test9(){
+			var result = document.getElementById('test1').value;
+			console.log(result);
+			console.log(eval(result)); // 코드로서 해석하기 때문에 입력된 1+1의 결과값으로 2가 출력됨
+		}
+	</script>
+	<script>
+		function test10(){
+			var testEval = '';
+			testEval += 'var number1 = Number(document.getElementById("num1").value);'; 
+			testEval += 'var number2 = Number(document.getElementById("num2").value);';
+			// Number()로 감싸줘야 문자열이 아닌 숫자로 인식해서 연산한 값이 나올 수 있음
+			testEval += 'var sum = 0;';
+			testEval += 'sum = number1 + number2;';
+			testEval += 'console.log(number1 + " 더하기" + number2 + "의 합은 " + sum + "입니다.");';
+			console.log(testEval);
+			eval(testEval);
+		}
+	</script>
+	
+	<h4>infinity와 NaN</h4>
+	<p>
+		대부분의 프로그래밍 언어는 0으로 숫자를 나누면 자동으로 오류가 발생하면서 프로그램이 종료되지만<br>
+		자바스크립트는 0으로 나누면 infinity라는 값이 들어가게 되고, <br>
+		자바스크립트가 표현할 수 없는 숫자는 NaN(Not a Number)로 표시
+	</p>
+	<button onclick="test11();">실행확인</button>
+	<script>
+		function test11(){
+			var num1 = 10 / 0;
+			var num2 = 10 / 'a';
+			var num3 = -10 / 0;
+			
+			console.log(num1); // Infinity
+			console.log(typeof num1); // number
+			console.log(isFinite(num1)); // 너 유한하니? false -> 유한하지 않다
+			console.log(num1 == Infinity); // 너 무한하니? true -> 무한하다 
+			
+			console.log(num2); // NaN
+			console.log(typeof num2); // number
+			console.log(isNaN(num2)); // true
+			console.log(num2 == NaN); // 이렇게 물어볼 수는 없기 때문에 false로 나옴
+			
+			console.log(num3); // -Infinity(음의 무한대)
+			console.log(typeof num3); // number
+			console.log(isFinite(num3)); // false
+			console.log(num3 == Infinity); // false
+			console.log(num3 == -Infinity); // true
+			
+		}
+	</script>
+</body>
+</html>
