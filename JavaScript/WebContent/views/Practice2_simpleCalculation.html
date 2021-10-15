@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Practice2_simpleCalculation</title>
+<style>
+	.number{width: 70px;}
+</style>
+</head>
+<body>
+	<h1>Practice2</h1>
+	<input type="number" id="num1" class="number">
+	
+	<select>
+		<option value="+">+</option>
+		<option value="-">-</option>
+		<option value="*">*</option>
+		<option value="/">/</option>
+		<option value="%">%</option>
+	</select>
+	
+	<input type="number" id="num2" class="number">
+	<button onclick="equal();">=</button>
+	<input type="text" id="result" class="number" readonly>
+	<script>
+		function equal(){
+			var input = document.getElementById('result');
+			var num1 = Number(document.getElementById('num1').value);
+			var num2 = Number(document.getElementById('num2').value);
+			var option = document.getElementsByTagName('option');
+			
+			var operator;
+			for(var i in option){
+				if(option[i].selected){
+					operator = option[i].value;
+					break;
+				}
+			}
+			
+			var result;
+			switch(operator){
+			case '+': result = num1 + num2; break;
+			case '-': result = num1 - num2; break;
+			case '*': result = num1 * num2; break;
+			case '/': result = num1 / num2; break;
+			case '%': result = num1 % num2; break;
+			}
+			
+			if(result == Infinity || result == -Infinity || isNaN(result)){
+				input.style.backgroundColor="red";
+				input.style.color="white";
+				input.value = '연산불가';
+			} else {
+				input.style.backgroundColor="white";
+				input.style.color="black";
+				input.value = result;
+			}
+		}
+	</script>
+</body>
+</html>
