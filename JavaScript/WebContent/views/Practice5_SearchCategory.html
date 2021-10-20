@@ -4,17 +4,52 @@
 <meta charset="UTF-8">
 <title>Practice5_SearchCategory</title>
 <style>
-	#searchBox{text-align: center;}
+	#searchBox{text-align: center; width: 500px;}
+	.box{display: none; padding-left: 10px; padding-top: 10px; background: lightgray; width: 530px; height: 60px;}
 </style>
 </head>
 <body>
 	<h1>Practice5</h1>
 	<fieldset id="searchBox">
 		<legend>검색할 항목을 선택하세요.</legend>
-		<input type="radio" name="search" value="title">제목
-		<input type="radio" name="search" value="date">제목
-		<input type="radio" name="search" value="title">제목
-		
+		<input type="radio" name="search" value="title" onclick="search(this);">제목
+		<input type="radio" name="search" value="date" onclick="search(this)">날짜
+		<input type="radio" name="search" value="writer" onclick="search(this);">작성자
 	</fieldset>
+	<br>
+	<div id="titleBox" class="box">
+		<label>검색할 제목을 입력하세요 :</label><br>
+		<input type="search" name="searchText" size="50"> &nbsp;
+		<input type="submit" value="검색">
+	</div>
+	<div id="dateBox" class="box">
+		<label>검색할 날짜를 선택하세요 :</label><br>
+		<input type="date" name="searchDate" size="20"> -
+		<input type="date" name="searchDate2" size="20"> &nbsp;
+		<input type="submit" value="검색">
+	</div>
+	<div id="writerBox" class="box">
+		<label>검색할 작성자 아이디를 입력하세요 :</label><br>
+		<input type="search" name="searchId" size="25"> &nbsp;
+		<input type="submit" value="검색">
+	</div>
+	<script>
+		function search(select){
+			if(select.value == 'title'){
+				document.getElementById("titleBox").style.display = "block"; // width와 height 설정 위해 블록요소 설정
+				document.getElementById("dateBox").style.display = "none";
+				document.getElementById("writerBox").style.display = "none";
+			} else if(select.value == 'date'){
+				document.getElementById("titleBox").style.display = "none";
+				document.getElementById("dateBox").style.display = "block";
+				document.getElementById("writerBox").style.display = "none";
+			} else {
+				document.getElementById("titleBox").style.display = "none";
+				document.getElementById("dateBox").style.display = "none";
+				document.getElementById("writerBox").style.display = "block";
+			}
+		}
+	</script>
+	
 </body>
 </html>
