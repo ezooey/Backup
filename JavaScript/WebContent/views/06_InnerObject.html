@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>06_InnerObject</title>
+</head>
+<body>
+	<h1>내장객체</h1>
+	<h2>Object객체</h2>
+	<p>
+		자바스크립트의 가장 기본적인 내장 객체<br>
+		모든 객체가 초기에 상속하는 객체이며 자바스크립트 객체 모델의 핵심적인 중요 메소드 제공
+	</p>
+	<button onclick="test1();">실행확인</button>
+	<script>
+		function test1(){
+			var obj1 = {};
+			var obj2 = new Object();
+			console.log(obj1);
+			console.log(obj2);
+		}
+	</script>
+	<h3>Object객체의 기본 메소드</h3>
+	<h4>hasOwnProperty() / propertyIsEnumerable() </h4>
+	<button onclick="test2();">실행확인</button>
+	<script>
+		function test2(){
+			var object = {
+				name:'박신우',
+				age:20
+			};
+			console.log(object);
+			
+			// hasOwnProperty() : 객체 안에 해당 속성이 존재하는지 확인
+			console.log(object.hasOwnProperty('name')); // true
+			console.log(object.hasOwnProperty('age')); // true
+			console.log(object.hasOwnProperty('hobby')); // false
+			
+			// PropertyIsEnumerable() : 해당 속성에 반복문을 사용할 수 있는지 확인
+			console.log(object.propertyIsEnumerable('name')); // true
+			console.log(object.propertyIsEnumerable('age')); // true
+			console.log(object.propertyIsEnumerable('hobby')); // false
+			
+		}
+	</script>
+	
+	<h2>Number객체</h2>
+	<h3>toFixed() : 지정한 자리에서 반올림</h3>
+	<button onclick="test3();">실행확인</button>
+	<script>
+		function test3(){
+			var num1 = 123.456789;
+			var num2 = 123;
+			console.log('num1 : ' + num1);
+			console.log('num2 : ' + num2);
+			console.log(num1.toFixed(1)); // 123.5
+			console.log(num1.toFixed(2)); // 123.46
+			console.log(num1.toFixed(3)); // 123.457
+			console.log(num2.toFixed(3)); // 123.000
+			console.log(num2.toFixed(0)); // 123
+			console.log(typeof num2.toFixed(0)); // string
+			console.log(num2.toFixed(-1)); // 0~100 사이까지만 넣어야 함
+			
+		}
+	</script>
+	
+	<h2>Date객체</h2>
+	<button onclick="test4();">실행확인</button>
+	<script>
+		function test4(){
+			var date1 = new Date();
+			console.log(date1); // 매개변수 없으면 현재 시간
+			var date2 = new Date('September 24');
+			console.log(date2); // 2001년 9월 24일 출력
+			var date3 = new Date('September 24, 2021');
+			console.log(date3); // 2021년 9월 24일 출력
+			var date4 = new Date('September 24, 2021 12:48:10');
+			console.log(date4); // 21년 9월 24일의 시간까지
+// 			var date5 = new Date(2021, 10, 19, 12, 29, 45); // 10월을 넣었는데 November 출력
+			var date5 = new Date(2021, 9, 19, 12, 29, 45); // 0부터 월 시작
+			console.log(date5); 
+			
+			console.log(date1.getFullYear()); // 2021(년)
+			console.log(date1.getMonth()); // 9(월)
+			console.log(date1.getDate()); // 19(일)
+			console.log(date1.getDay()); // 2(요일)
+			console.log(date1.getHours()); // 14(시간)
+			console.log(date1.getMinutes()); // 5(분)
+			console.log(date1.getSeconds()); // 48(초)
+			console.log(date1.getMilliseconds()); // 839(밀리초)
+			console.log(date1.getTimezoneOffset()); // -540(타임존)
+			console.log(date1.getTime()); // 1634619948839
+			
+			var time = new Date(1634619948839);
+			console.log(time); 
+			// Tue Oct 19 2021 14:05:48 GMT+0900 (한국 표준시)
+			
+			// 날짜 사이의 간격 구하기
+			var now = new Date();
+			var start = new Date(2021, 7, 4);
+			var end = new Date('January 25, 2022');
+			
+			var interval1 = now.getTime() - start.getTime(); // 얼마나 지났는지(밀리초)
+			var interval2 = end.getTime() - now.getTime(); // 얼마나 남았는지
+			var from = interval1 / (1000 * 60 * 60 * 24); // 1000 * 초 * 60(한시간) * 24(하루)
+			var to = interval2 / (1000 * 60 * 60 * 24);
+			
+			console.log('개강한 지' + from + "일 지났습니다.");
+			console.log('종강까지 ' + to + "일 남았습니다.");
+		}
+	</script>
+</body>
+</html>

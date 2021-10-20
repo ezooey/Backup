@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Practice4_BuyingInfo</title>
+<style>
+	#showInfo{width: 400px; height: 150px; border: 1px solid black;}
+</style>
+</head>
+<body>
+	<h1>Practice4</h1>
+	<fieldset>
+		<legend>구매 정보</legend>
+		<ul>
+			<li>구매자 : <input type="text" id="name" placeholder="구매자의 이름을 입력하세요"></li>
+			<li>상품명 : <input type="text" id="product" placeholder="구매 상품 명을 입력하세요"></li>
+			<li>가격 : <input type="text" id="price" placeholder="구매 가격을 입력하세요"></li>
+			<li>구매 수량 : <input type="number" id="amount" min="10" step="10" placeholder="최소 10"></li>
+			<li>납품 등급 : <input type="range" id="grade" value="1" min="1" max="9" step="2"></li>
+			<li>기타 사항 : <textarea id="etc" cols="30" rows="5"></textarea></li>
+		</ul>
+	</fieldset>
+	<br>
+	<button onclick="info();">입력 값 출력하기</button>
+	<script>
+		function info(){
+			var info = {
+				구매자명: document.getElementById('name').value + "님<br>",
+				상품명: document.getElementById('product').value + "<br>",
+				가격: document.getElementById('price').value + "만원<br>",
+				구매수량: document.getElementById('amount').value + "개<br>",
+				납품등급: document.getElementById('grade').value + "등급<br>",
+				기타사항: document.getElementById('etc').value + "<br>"
+			};
+			var buyingInfo = '';
+			
+			for(var i in info){
+				buyingInfo += i + ":" + info[i];
+				console.log(i + ":" + info[i]);
+			}
+			document.getElementById('showInfo').innerHTML = buyingInfo;
+
+// 			var iName = document.getElementById('name').value,
+// 			var iProduct = document.getElementById('product').value,
+// 			var iPrice = document.getElementById('price').value,
+// 			var iAmount = document.getElementById('amount').value,
+// 			var iGrade = document.getElementById('grade').value,
+// 			var iEtc = document.getElementById('etc').value
+			
+// 			document.getElementById('showInfo').innerHTML = "구매자 명 : " + iName + "님<br>"
+// 														+ "상품 명 : " + iProduct + "<br>"
+// 														+ "가격 : " + iPrice + "<만원br>"
+// 														+ "구매 수량 : " + iAmount + "개<br>"
+// 														+ "납품등급  : " + iGrade + "등급<br>"
+// 														+ "기타사항 : " + iEtc + "<br>";
+		}
+	</script>
+	<div id="showInfo"></div>
+</body>
+</html>

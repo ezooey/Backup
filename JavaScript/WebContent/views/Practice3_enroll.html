@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+</head>
+<body>
+	<h1>Practice3</h1>
+	
+	<fieldset>
+		<legend>회원가입</legend>
+		아이디 : <input type="text" id="id" class="id" onkeyup="checkId();">
+		<span id="alertId"></span>
+		<br><br>
+		비밀번호 : <input type="password" id="pwd" class="pwd"><br><br>
+		비밀번호 확인 : <input type="password" id="checkPwd" class="pwd" onblur="checkPwd();">
+		<span id="alertPwd"></span>
+		<br><br>
+		이름 : <input type="text" id="name" class="name"><br><br>
+		<button onclick="enroll();">회원가입</button>
+	</fieldset>
+		<script>
+			function checkId(){
+				var id = document.getElementById('id').value;
+				var alertId = document.getElementById('alertId');
+				
+				if(id == 'user01'){
+					alertId.style.color="red";
+					alertId.innerHTML = '이미 존재하는 아이디입니다.';
+				} else if(id == '') {
+					alertId.innerHTML = '';
+				} else {
+					alertId.style.color="green";
+					alertId.innerHTML = '사용 가능한 아이디입니다.';
+				}
+			}
+		</script>
+		<script>
+			function checkPwd(){
+				var pwd = document.getElementById('pwd').value;
+				var checkPwd = document.getElementById('checkPwd').value;
+				var alertPwd = document.getElementById('alertPwd');
+				
+				if(pwd == checkPwd){
+					alertPwd.style.color = "green";
+					alertPwd.innerHTML = '비밀번호가 일치합니다.'
+				} else if(pwd == ''){
+					alertPwd.innerHTML = '';
+				} else {
+					alertPwd.style.color = "red";
+					alertPwd.innerHTML = '비밀번호가 일치하지 않습니다.';
+				}
+			}
+		</script>
+		<script>
+			function enroll(){
+				var id = document.getElementById('id');
+				var alertId = document.getElementById('alertId');
+				var pwd = document.getElementById('pwd');
+				var checkPwd = document.getElementById('checkPwd');
+				var name = document.getElementById('name');
+				
+				if(id.value == ''){
+					alert('아이디를 입력해주세요.');
+					id.focus();
+				} else if(pwd.value == ''){
+					alert('비밀번호를 입력해주세요.');
+					pwd.focus();
+				} else if(checkPwd.value == ''){
+					alert('비밀번호를 확인해주세요.');
+					checkPwd.focus();
+				} else if(name.value == ''){
+					alert('이름을 입력해주세요.');
+					name.focus();
+				} else if(id.value == 'user01'){
+					alert('사용할 수 없는 아이디입니다.');
+					id.value = '';
+					id.focus();
+				} else if(pwd.value != checkPwd.value){
+					alert('비밀번호가 일치하지 않습니다.');
+					checkPwd = '';
+					checkPwd.focus();
+				} else {
+					alert(name.value + '님, 회원가입이 성공적으로 완료되었습니다^^');
+					id.value = '';
+					pwd.value = '';
+					checkPwd.value = '';
+					name.value = '';
+					document.getElementById('alertId').innerHTML = '';
+					document.getElementById('alertPwd').innerHTML = '';
+				}
+				
+				
+			}
+		</script>
+	
+</body>
+</html>

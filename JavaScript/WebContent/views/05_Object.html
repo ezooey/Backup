@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>05_Object</title>
+</head>
+<body>
+	<h1>객체</h1>
+	<h2>객체 선언 및 호출</h2>
+	<p>
+		중괄호{}를 사용하여 객체를 생성하고, 속성에는 모든 자료형이 올 수 있음<br>
+		객체는 키 값을 사용하여 속성 식별
+	</p>
+	<button onclick="test1();">실행확인</button>
+	<script>
+		function test1(){
+			var product = {
+				pName:'말린 망고',
+				type:'피클',
+				ingredient:['mango', 'sugar'],
+				원산지:'필리핀'
+			};
+		console.log(product);
+		
+		//[]를 통해서 속성 접근 : 객체명['속성명']
+		console.log(product['pName']); // 말린 망고
+		console.log(product['type']); // 피클
+		console.log(product['ingredient']); // ['mango', 'sugar']
+		console.log(product['원산지']); // 필리핀
+		 // ''을 안 쓰면 변수로 인식해서 에러 남
+		 
+		//.을 통해서 속성 접근
+		console.log(product.pName); // 말린 망고
+		console.log(product.type); // 피클
+		console.log(product.ingredient); // ['mango', 'sugar']
+		console.log(product.원산지); // 필리핀
+		// ''을 안 써도 product안에 있는 타입이라는 걸 명시했기 때문에 에러x
+		}
+	</script>
+	
+	<h3>객체의 키 식별자 테스트</h3>
+	<p>
+		객체의 키는 모든 문자열 사용
+		.을 이용해서 접근 시 식별할 수 없는 단어를 사용했을 경우 무조건 []를 사용하여 접근
+	</p>
+	<button onclick="test2();">실행확인</button>
+	<script>
+		function test2(){
+			var obj = {
+				'key$1':'value1',
+				'key_2':'value2',
+				'key 3':'value3'
+			};
+			console.log(obj);
+			console.log(obj.key$1);
+			console.log(obj.key_2);
+// 			console.log(obj.key 3); // 띄어쓰기 인식 불가
+			// missing after argument list
+			console.log(obj['key 3']); // 대괄호 이용해서 띄어쓰기 인식
+		}
+	</script>
+	
+	<h3>객체의 메소드 속성</h3>
+	<p>객체 속성 중 함수 자료형인 속성을 메소드라고 함</p>
+	<button onclick="test3();">실행확인</button>
+	<script>
+		function test3(){
+			var fruit = {
+				name1: '귤',
+				name2: '사과',
+				eat: function(person){
+					console.log(person + "님은 " + this.name1 + "과 " + this.name2 + "를 먹는 중입니다.");
+					// this키워드를 이용하여 자신(test3)의 속성에 접근
+				}
+			};
+			
+			fruit.eat('신우');
+		}
+	</script>
+	
+	<h3>객체와 반복문</h3>
+	<p>객체의 속성을 살펴볼 때는 단순 for문은 불가능하고 for in문을 사용해야 함</p>
+	<button onclick="test4();">실행확인</button>
+	<script>
+		function test4(){
+			var movie = {
+					title:'보이스',
+					releaseDate:'2021-09-15',
+					director:['김선', '김곡'],
+					mainActor:['변요한', '김무열', '김희원', '박명훈'],
+					screening:true
+			};
+			console.log(movie);
+			for(var i in movie){
+// 				console.log(i); // 인덱스가 아니라 키만 가져오게 됨
+				// for in문에서 배열은 인덱스, 객체는 키가 나온다
+				console.log(i + ":" + movie[i]);
+				// 이렇게 해줘야 값도 같이 나온다
+			}
+		}
+	</script>
+	
+	<h2>객체 속성 추가 및 제거</h2>
+	<p>
+		처음 객체 생성 이후 속성을 추가하거나 삭제하는 것을
+		'동적으로 속성을 추가한다' 혹은 '제거한다'라고 함
+	</p>
+	<button onclick="test5();">실행확인</button>
+	<script>
+		function test5(){
+			var student = {};
+				console.log(student);
+				
+				student.name = '박신우';
+				student.hobby = 'TV보기';
+				student['strength'] = '프로그래밍';
+				student['dream'] = '돈 많은 백수';
+				student.toString = function(){ // 함수도 동적으로 추가할 수 있다
+					var str = '';
+					for(var key in student){
+						if(key != 'toString'){ //key가 toString이 아닐 때만 추가
+						// 위의 if문 조건을 추가해야 함수의 내용까지 그대로 나오지 않게 됨
+							str += key + ":" + this[key] + "/";
+						}
+					}
+					
+					return str;
+				}
+				// toString으로 함수까지 붙어서 나옴; (toString : f)
+				console.log(student);
+				console.log(student.toString());
+				
+				// 객체 삭제
+				delete(student.hobby);
+				console.log(student.toString());
+		}
+	</script>
+	
+	<h2>객체 배열</h2>
+	<button onclick="test6();">실행확인</button>
+	<script>
+		function test6(){
+			var student0 = {name:'차청춘', java:90, oracle:60, jdbc:80, html5:100, css3:40, javascript:70};
+			var student1 = {name:'류라라', java:37, oracle:17, jdbc:17, html5:26, css3:40, javascript:35};
+			var student2 = {name:'강건강', java:13, oracle:73, jdbc:13, html5:50, css3:60, javascript:85};
+			var student3 = {name:'정재주', java:91, oracle:88, jdbc:24, html5:23, css3:20, javascript:25};
+			var student4 = {name:'문미미', java:84, oracle:36, jdbc:85, html5:45, css3:74, javascript:75};
+			var student5 = {name:'윤예의', java:28, oracle:75, jdbc:24, html5:32, css3:84, javascript:75};
+			var student6 = {name:'남나눔', java:52, oracle:45, jdbc:99, html5:85, css3:25, javascript:43};
+			var student7 = {name:'박보배', java:28, oracle:74, jdbc:64, html5:36, css3:34, javascript:74};
+			var student8 = {name:'송성실', java:95, oracle:13, jdbc:86, html5:54, css3:86, javascript:23};
+			var student9 = {name:'도대담', java:87, oracle:87, jdbc:43, html5:34, css3:75, javascript:85};
+			
+			var students = [];
+			students.push(student0);
+			students.push(student1);
+			students.push(student2);
+			students.push(student3);
+			students.push(student4);
+			students.push(student5);
+			students.push(student6);
+			students.push(student7);
+			students.push(student8);
+			students.push(student9);
+			console.log(students);
+			
+			for(var i in students){ 
+			//students는 배열이니까 for in 돌리면 인덱스가 출력됨
+				students[i].getSum = function(){ // 동적으로 추가되는 함수
+					var sum = 0;
+					for(var key in this){ 
+					// 배열 인덱스로 인해 객체 안에 이미 도달해 있기 때문에 this해줌
+						if(key != 'name' && key != 'getSum' && key != 'getAvg'){
+						// 아래에서 동적으로 추가되는 함수가 더 있기 때문에 조건들을 추가해줌
+							sum += students[i][key];
+						}
+					}
+					
+					return sum;
+				};
+				
+				students[i].getAvg = function(){
+					return this.getSum() / 6; // 내꺼 안에 있는 getSum을 6개로 나눈 값을 반환
+				}
+			}
+			
+			for(var i in students){
+				console.log('이름: ' + students[i].name 
+						+ ', 총점 : ' + students[i].getSum()
+						+ ', 평균 : ' + students[i].getAvg());
+			}
+		}
+	</script>
+</body>
+</html>
