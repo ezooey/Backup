@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>02_3_descendants</title>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.wrap *{
+		border: 1px solid lightgray;
+		display: block; padding: 5px; margin: 15px;
+	}
+	.type{width: 450px};
+</style>
+</head>
+<body>
+	<h1>객체 탐색</h1>
+	<h2>탐색 메소드</h2>
+	<h3>Descendants메소드</h3>
+	<p>선택된 요소의 하위 요소들을 선택할 수 있는 메소드</p>
+	<div class="wrap">
+		<div class="type">div(great-grandparent)
+			<ul>ul(grandparent)
+				<li>li(direct parent)
+					<span>span1</span>
+				</li>
+				<li>li(direct parent)
+					<span>span2</span>
+				</li>
+			</ul>
+		</div>
+		<div class="type">div(grandparent)
+			<p>p(direct parent)
+				<span>span</span>
+			</p>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			// children() : 선택된 요소의 바로 아래 자손 리턴
+			console.log($('.wrap').children()); // div.type 두 개 반환
+			// => wrap 아래에 두 개의 div가 자식으로 있기 때문
+			$('.wrap').children().css({'color':'red', 'border':'2px solid red'});
+			$('.wrap').children().children().css({'color':'blue', 'border':'2px solid red'});
+			// 메소드 체이닝으로 엮어서 한 번 더 하위 요소에 접근 가능
+			$('.wrap').children().children('ul').css({'color':'green', 'border':'2px solid red'});
+			// 매개변수 있으면 일치하는 것만 찾아서 리턴
+			
+			// find() : 선택된 요소와 일치하는 모든 후손 리턴
+// 			console.log($('.wrap').find()); // 매개변수가 안 들어가서 비교할 요소가 없어짐; 0 리턴
+			$('.wrap').find('span').css({'color':'pink', 'border':'2px solid pink'});
+			
+			// 다양한 방법 존재
+			$('ul').find('span').css({'color':'orange', 'border':'2px solid orange'});
+			$('li').children().css({'color':'orange', 'border':'2px solid orange'});
+			$('li').children('span').css({'color':'orange', 'border':'2px solid orange'});
+			$('.wrap').find('li').children().css({'color':'orange', 'border':'2px solid orange'});
+			$('.wrap').find('ul').find('span').css({'color':'orange', 'border':'2px solid orange'});
+			$('.wrap').children().children('ul').find('span').css({'color':'orange', 'border':'2px solid orange'});
+		});
+	</script>
+</body>
+</html>

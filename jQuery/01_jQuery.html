@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>01_jQuery</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1>jQuery</h1>
+	<p>
+		존 레식에 의해 개발된 경량 JavaScript라이브러리<br>
+		JavaScript코드를 손쉽게 구현하기 위해 개발
+	</p>
+	<h2>jQuery 개요</h2>
+	<h3>jQuery 장점</h3>
+	<ol>
+		<li>DOM과 관련된 처리를 쉽게 구현할 수 있음</li>
+		<li>Ajax통신, 이벤트 처리 등 폭넓게 지원</li>
+		<li>별도의 플러그인을 통해 차트, 슬라이드쇼, 테이블 등 간단히 구현 가능</li>
+	</ol>
+	
+	<h3>jQuery 연결</h3>
+	<ol id="ol-connect">
+		<li>jQuery홈페이지에서 js파일을 다운로드 받아 연결</li>
+		<li>CDN(content Delivery Network)을 통한 연결</li>
+	</ol>
+	<script>
+		// javascript 버전
+// 		document.getElementById('ol-connect').style.backgroundColor = 'beige';
+		
+		// jQuery
+		$('#ol-connect').css('background', 'beige');
+		// Uncaught ReferenceError: $ is not defined
+		// -> jQuery 연결되지 않았을 때 나는 에러
+	</script>
+	
+	<h3>$(document).ready()</h3>
+	<p id="p-ready">
+		페이지를 로드한 후 ready 실행 = JavaScript의 window.onload<br>
+		자바스크립트의 window.onload속성은 여러 개 설정 시 마지막에 쓴 것으로 덮어지지만<br>
+		jQuery는 여러 개 설정하는 모두 연달아 실행되는 차이점 존재
+	</p>
+	<script>
+		// 네 가지 방법
+		$(document).ready(function(){
+			$("#p-ready").css('background', 'pink');
+		});
+		
+		jQuery(document).ready(function(){
+			$('#p-ready').css('border', '3px dashed red');
+		});
+		
+		jQuery(function(){ // (document).ready 생략 가능
+			$('#p-ready').css('font-weight', 'bold');
+		});
+		
+		$(function(){
+			$('#p-ready').css('font-style', 'italic');
+		})
+	</script>
+	
+	<h2>선택자와 메소드</h2>
+	<p>선택자를 지정하고 메소드를 통해 jQuery적용</p>
+	<div>
+		<ul>
+			<li>치킨</li>
+			<li>불고기 피자</li>
+			<li>치즈 피자</li>
+			<li>파인애플 피자</li>
+			<li>콤비네이션 피자</li>
+		</ul>
+		<h3>KH피자#</h3>
+	</div>
+	
+	<label>이름: </label>
+	<input type="text" id="name" name="name" class="order"><br>
+	<label>주문 비밀번호 : </label>
+	<input type="password" id="pwd" name="pwd" class="order important"><br>
+	<label>핸드폰 번호 : </label>
+	<input type="number" name="number1">-<input type="number" name="number2">-<input type="number" name="number3"><br>
+	<label>주소 : </label>
+	<input type="text" id="addr" name="addr" class="order" size="80"><br>
+	<label>치킨 주문 : </label> 
+	<input type="text" id="chicken" class="order" list="chickenList">
+	<datalist id="chickenList">
+		<option value="original">후라이드 치킨</option>
+		<option value="source">양념 치킨</option>
+		<option value="half">후라이드 반 양념 반</option>
+	</datalist><br>
+	<label>피자 주문 : </label>
+	<input type="checkbox" name="pizza">불고기 피자
+	<input type="checkbox" name="pizza">치즈 피자
+	<input type="checkbox" name="pizza">파인애플 피자
+	<input type="checkbox" name="pizza">콤비네이션 피자<br>
+	<label>일회용품 : </label>
+	<input type="radio" name="product1" id="need" checked>필요함
+	<input type="radio" name="product1" id="noneed">필요하지 않음<br>
+	<label>파일 : </label>
+	<input type="file"><br>
+	<label>이미지 : </label>
+	<input type="image" src="../images/flower1.PNG" height="200px"><br>
+	<br>
+	<input type="button" value="클릭">
+	<input type="submit" value="제출">
+	<input type="reset" value="리셋">
+	<input type="text" disabled><input type="button" value='비활성화' disabled>
+	<br>
+	<br>
+	<table>
+		<tr>
+			<th>이름</th>
+			<th>혈액형</th>
+			<th>고향</th>
+		</tr>
+		<tr>
+			<td>강건강</td>
+			<td>B형</td>
+			<td>광주</td>
+		</tr>
+		<tr>
+			<td><a>남나눔</a></td>
+			<td>AB형</td>
+			<td>담양<td>
+		</tr>
+		<tr>
+			<td><a href="#">도대담</a></td>
+			<td>A형</td>
+			<td>서울</td>
+		</tr>
+		<tr>
+			<td>류라라</td>
+			<td>B형</td>
+			<td>천안</td>
+		</tr>
+		<tr>
+			<td>문미미</td>
+			<td>O형</td>
+			<td>서울</td>
+		</tr>
+		<tr>
+			<td>박보배</td>
+			<td>AB형</td>
+			<td>담양</td>
+		</tr>
+		<tr>
+			<td colspan="2">총원</td>
+			<td>6</td>
+		</tr>
+	</table>
+	<script>
+		$(function(){
+			// 전체 선택자 *
+// 			$('*').css('color', 'red');
+			// css() : 문서의 스타일을 변경할 때나 검사(확인)할 때 사용, 속성 여러 개 설정 가능
+			console.log($('*').css('color')); // rgb(255, 0, 0)
+			
+			// 태그 선택자
+			$('label').css('font-weight', 'bold');
+			$('label, p').css('background', 'beige');
+			
+			// 아이디 선택자 #
+			$('#name').attr('placeholder', '이름을 입력해주세요');
+			// attr() : 특정 속성 값을 알아내거나 속성을 추가할 때 사용
+			console.log($('#name').attr('placeholder'));
+			console.log($('#name').attr('size')); // 설정되지 않은 속성은 undefined 반환
+			$('#name').attr('size', '100'); // 속성 추가
+			$('#name').removeAttr('size'); // 속성 제거
+			// removeAttr() : 속성 삭제, 연결해서 여러 개 삭제 가능(.removeAttr().removeAttr()...)
+			
+			// 클래스 선택자 .
+			$('.order').css('background', 'rgba(0, 0, 255, 0.1)');
+			$('.order.important').css('background', 'tomato');
+			
+			// 자식 선택자 > 후손 선택자 
+			$('div>h3').css('color', 'brown');
+			$('div li').css('color', 'orange');
+			
+			// 속성 선택자
+			$('input[size]').css('background', 'yellowgreen'); // 사이즈가 있으면 배경색 지정해라
+			$('input[type=number]').attr('placeholder', '번호필수입력'); // number가 있으면 placeholder 지정해라
+			$('input[class~=important]').val('12345');
+			// val() : value에 값을 설정하거나 설정된 value값을 확인할 때 사용
+			console.log($('input[class~=important]').val());
+			$('input[name*=d]').css('background', 'pink');
+			$('input[name^=n]').css('background', 'skyblue');
+			$('input[class$=der]').css('background', 'rgba(0, 100, 0, 0.1)');
+			
+			// input타입 필터 선택자
+			$('input:text').css('background', 'white');
+			$('input:password').css('background', 'gold');
+			$('input:checkbox').prop('checked', true);
+			// prop() : 속성 값의 여부를 true/false로 리턴
+			// attr()은 속성 값을 다양하게 설정할 수 있을 때
+			// prop()는 속성 값을 true/false로 설정할 수 있을 때(상태 값)
+// 			$('input:radio').css('width', '30px');
+// 			$('input:radio').css('height', '30px');
+// 			$('input:radio').css('width', '50px').css('height', '50px');
+			$('input:radio').css({'width':'30px', 'height':'30px'});
+			$('input:file').css({'background':'blue', 'color':'white'});
+// 			$('input:image').mouseenter(function(){
+// 				$(this).attr('src', '../images/river1.PNG');
+// 			});
+// 			$('input:image').mouseout(function(){
+// 				$(this).attr('src', '../images/flower1.PNG');
+// 			});
+			$('input:image').mouseenter(function(){
+				$(this).attr('src', '../images/river1.PNG');
+			}).mouseout(function(){
+				$(this).attr('src', '../images/flower1.PNG');
+			});
+			// 메소드체이닝으로도 가능
+			
+// 			$('input:button').attr('value', '왕버튼').css({'width':'50px', 'height':'50px'});
+			// attr과 css도 메소드체이닝으로 한번에 쓸 수 있음
+			$('input:button').val('왕버튼').css({'width':'50px', 'height':'50px'});
+			$('input:submit').css({'background':'orange', 'color':'white'});
+			$('input:reset').css('background', 'yellow');
+			$('input:disabled').css('background', 'powderblue');
+			
+			// 순서에 따른 필터 선택자 : zero-base로 판단
+			$('tr:odd').css('background', 'yellow'); // 홀수번째
+			$('tr:even').css('background', 'lightgray');
+			$('tr:first').css('background', 'black').css('color', 'white');
+			$('tr:last').css({'background':'orangered', 'color':'white'});
+			
+			// 수열번째 위치하는 태그 : zero-base가 아님
+			$('tr:nth-child(2n)').css('background', 'yellowgreen');
+			$('td:nth-child(3)').css('background', 'orange');
+			// 총원 6명칸은 두번째 칸이라서 해당되지 않음
+			
+			// n번째 위치하는 객체 선택
+			$('tr:eq(7)').css({'background':'black', 'color':'gray'});
+			// n번째를 초과하는 객체 선택 
+			$('tr:gt(2)').css('background', 'white');
+			// greater than (2보다 큰 거)
+			// n번째 미만에 위치하는 객체 선택
+			$('tr:lt(7)').css('font-size', '1.5em');
+			// 특정 문자열을 포함하는 객체 선택
+			$('td:contains("B형")').css('color', 'red');
+			// 특정 태그를 갖고 있는 객체 선택
+			$('td:has(a)').css('font-style', 'italic');
+			$('td:has(a[href])').css('background', 'cyan');
+			
+			// 선택자와 일치하지 않는 객체 선택
+			$('td:not(:contains("류라라"))').css('color', 'magenta')
+			// 도대담은 a태그의 색깔이 들어가서 적용되지 않았음
+		});
+	</script>
+	
+</body>
+</html>
