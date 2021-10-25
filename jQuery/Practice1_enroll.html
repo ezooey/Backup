@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Practice1_enroll</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	#wrap{width: 600px; border: 1px solid black;}
+	table{width: 100%; border: 1px solid black;}
+	table td{padding: 5px;}
+	.item{width: 20%; background: pink; font-weight: bold; text-align: center;}
+	.info{font-size: 11px;}
+	.item+td{width: 20%;}
+	tr:last-child{text-align: center;}
+	label[id*=Result]{font-weight: bold; font-size: 12px;}
+</style>
+</head>
+<body>
+	<h1>입력 양식 이벤트</h1>
+	<div id="wrap">
+		<h2 align="center">회원가입</h2>
+		<table>
+			<tr>
+				<td class="item" rowspan="2">
+					<label>이름</label>
+				</td>
+				<td>
+					<input type="text" name="name" id="name" required>
+				</td>
+				<td>
+					<label id="nameResult"></label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span class="info">이름은 한글로 된 2글자 이상으로 입력하셔야 합니다.</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="item" rowspan="2">
+					<label>아이디</label>
+				</td>
+				<td>
+					<input type="text" name="userId" id="userId" required>
+				</td>
+				<td>
+					<label id="idResult"></label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span class="info">8~12자로 영어와 숫자만 가능합니다.(영어로 시작)</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="item" rowspan="2">
+					<label>비밀번호</label>
+				</td>
+				<td>
+					<input type="password" name="pwd1" id="pwd1" required>
+				</td>
+				<td>
+					<label id="pwd1Result"></label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span class="info">8~12자로 영어와 숫자, !*$만 가능합니다.(영어로 시작)</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="item" rowspan="2">
+					<label>비밀번호 확인</label>
+				</td>
+				<td>
+					<input type="password" name="pwd2" id="pwd2" required>
+				</td>
+				<td>
+					<label id="pwd2Result"></label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span class="info">비밀번호와 일치하게 써주세요.</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="item">
+					<label>이메일</label>
+				</td>
+				<td>
+					<input type="email" name="email" id="email" required>
+				</td>
+				<td></td>
+			<tr>
+				<td colspan="3">
+					<input type="reset">
+					 &nbsp; 
+					<input type="submit" id="submit">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="result"></div>
+	<script>
+		$(function(){
+			var isName, isId, isPw, isPw2 = false;
+			// input 관련 이벤트
+			
+			$("#name").focus(function(){
+				console.log('FOCUS');
+			}).blur(function(){
+				console.log('BLUR');
+			}).change(function(){
+			// select, checkbox, radio와 다르게 input, textarea는 focus를 잃을 때 발생
+				console.log('CHANGE');
+			}).select(function(){ // 텍스트 영역 블럭 잡힌 경우
+				console.log('SELECT');
+			});
+			
+			// focusin(), focusout()은 해당 요소와 자식 요소가 포커스를 가지면 발생
+			$("td").focusin(function(){
+				$(this).css('background', 'beige');
+			}).focusout(function(){
+				$(this).css('background', 'white');
+			});
+			
+			// change이벤트는 blur때 발생
+			$("#name").change(function(){
+			// change() : 해당 요소의 value에 변화가 생기면 감지해서 함수 동작
+				var regExp = /[가-힣]{2,}/;
+				
+				if(!regExp.test($(this).val())){
+				// test() : str 안에 정규표현식 문자가 있으면 true, 없으면 false
+					$("#nameResult").text("알맞은 이름을 입력하세요.").css('color', 'red');
+					$(this).focus().css('background', 'red');
+					isName = false;
+				} else {
+					$('#nameResult').text("정상입력").css('color', 'green');
+					$(this).css('background', 'initial');
+					isName = true;
+				}
+			});
+			
+			$('#userId').change(function(){
+				var regExp = /^[a-zA-Z][a-zA-Z0-9]{7,11}$/;
+				// 뒤에 $ 안 붙이면 숫자제한이 안 먹음
+				
+				
+				if(!regExp.test($(this).val())){
+					$('#idResult').text("알맞은 아이디를 입력하세요.").css('color', 'red');
+					$(this).focus().css('background', 'red');
+					isId = false;
+				} else {
+					$('#idResult').text('정상입력').css('color', 'green');
+					$(this).css('background', 'initial');
+					isId = true;
+				}
+			});
+			
+			$('#pwd1').change(function(){
+				var regExp = /^[a-zA-Z][a-zA-Z0-9!*$]{7,11}$/;
+				
+				if(!regExp.test($(this).val())){
+					$('#pwd1Result').text("알맞은 비밀번호를 입력하세요").css('color', 'red');
+					$(this).focus().css('background', 'red');
+					isPw = false;
+				} else {
+					$('#pwd1Result').text("정상입력").css('color', 'green');
+					$(this).css('background', 'initial');
+					isPw = true;
+				}
+			});
+			
+			$('#pwd2').keyup(function(){
+				if($('#pwd1').val() != $(this).val()){
+					$('#pwd2Result').text("비밀번호가 일치하지 않습니다").css('color', 'red');
+					$(this).focu
+					isPw2 = false;
+				} else {
+					$('#pwd2Result').text("비밀번호가 일치합니다").css('color', 'green');
+					$(this).css('background', 'initial');
+					isPw2 = true;
+				}
+			});
+			
+			$(document).on("click", '#submit', function(){
+				if(isName && isId && isPw && isPw2){
+					if(confirm('폼 전송하시겠습니까?')){
+						$('#result').html("이름 : " + $('#name').val());
+						return false;
+					} else {
+						return false;
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>

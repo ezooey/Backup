@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>05_effect</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.menu{
+		width: 300px; height: 30px; background: yellowgreen;
+		border-radius: 10px; text-align: center; border: 1px solid green;
+		cursor: pointer;
+	}
+	
+	.contents{
+		border: 1px solid lightgray; width: 300px; height: 200px;
+		display: none;
+	}
+</style>
+</head>
+<body>
+	<h1>효과</h1>
+	<h2>show()와 hide()</h2>
+	<p>객체를 크게 하여 보여주거나 작게 하여 사라지게 함</p>
+	<button id="show">보이기</button>
+	<button id="hide">숨기기</button>
+	<button id="toggle">토글이</button>
+	<br>
+	<img id="river" src="../images/river1.PNG">
+	<script>
+		$(function(){
+			$('#show').click(function(){
+// 				$('#river').css('display','inline')//9시 36분 뭐가 인라인?
+				$('#river').show(100);
+			});
+			$('#hide').click(function(){
+// 				$('#river').css('display', 'none')
+				$('#river').hide(800); // 숫자가 커질수록 느리다
+			});
+			
+			// 토글 버튼 구현 : show()와 hide()가 번갈아 실행되도록 만들기
+			$('#toggle').click(function(){
+				
+				// display 이용
+// 				if($('#river').css('display') == none){
+// 					$('#river').show();
+// 				} else {
+// 					$('#river').hide();
+// 				}
+				
+				// 카운트 이용
+// 				var count = 0;
+// 				count++;
+// 				if(count % 2 != 0){
+// 					$('#river').hide();
+// 				} else {
+// 					$('#river').show();
+// 				}
+				
+				// boolean 값 이용
+// 				console.log($('#river').css('display'));
+// 				var check = true;
+// 				if(check){
+// 					$('#river').hide();
+// 					check = false;
+// 				} else {
+// 					$('#river').show();
+// 					check = ture;
+// 				}
+				
+				// toggle 이용
+				$('#river').toggle(500); // 매개변수 지정도 가능
+			});
+		});
+	</script>
+	
+	<h2>slideDown()과 slideUp()</h2>
+	<div class="menu">첫 번째 메뉴</div>
+	<p class="contents">내용1</p>
+	<div class="menu">두 번째 메뉴</div>
+	<p class="contents">내용2</p>
+	<div class="menu">세 번째 메뉴</div>
+	<p class="contents">내용3</p>
+	<div class="menu">네 번째 메뉴</div>
+	<p class="contents">내용4</p>
+	<div class="menu">다섯 번째 메뉴</div>
+	<p class="contents">내용5</p>
+	
+	<script>
+	// 그냥 this라고만 하면 menu의 display만 보기 때문에
+	// 내용1~5가 펼쳐지는지 여부를 확인하려면 p태그의 display 속성을 확인해야 함
+	// 그렇기 때문에 $(this)만 할 것이 아니라 $(this).next()로 p태그에 접근한다.
+		$('.menu').click(function(){
+// 			if($(this).next().css('display') == 'none'){
+// 				$(this).next().slideDown(1000); // 매개변수 적용 가능
+// 			} else {
+// 				$(this).next().slideUp();
+// 			}
+
+		// toggle 버전
+			$(this).next().slideToggle();
+		});
+	</script>
+	
+	<h2>fadeIn()과 fadeOut()</h2>
+	<button id="fadeIn">fadeIn()</button>
+	<button id="fadeOut">fadeOut()</button>
+	<button id="fadeToggle">toggle()</button>
+	<br>
+	<img id="flower" src="../images/flower1.PNG">
+	
+	<script>
+		$('#fadeIn').click(function(){
+			$('#flower').fadeIn(600);
+		});
+		$('#fadeOut').click(function(){
+			$('#flower').fadeOut(900);
+		});
+		
+		$('#flower').hover(function(){
+			// 1에 가까울수록 진해지고 0에 가까울수록 옅어짐
+			$(this).fadeTo(700, 0.1);
+		}, function(){
+			$(this).fadeTo(700, 1);
+		});
+		
+		// fade 되면서 토글
+		$('#fadeToggle').click(function(){
+			$('#flower').fadeToggle(1000);
+		});
+	</script>
+</body>
+</html>
