@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>1_Servlet</display-name>
+  <welcome-file-list><!-- 애플리케이션 실행 시 자동으로 보여줄 파일 지정, 시작 페이지 설정 -->
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Servlet 매핑 -->
+  <servlet>
+  	<servlet-name>test1</servlet-name> <!-- 배포명(짝이라는 증표) -->
+  	<servlet-class>com.kh.servlet.TestServlet1</servlet-class> <!-- 패키지명이랑 함께 적어줌 -->
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>test1</servlet-name>
+  	<url-pattern>/testServlet1.do</url-pattern><!-- /1_Servlet/은 안 적어도 됨 -->
+  </servlet-mapping>
+  <!-- 
+  	submit으로 정보를 보내면 testServlet1.do로 요청을 보내서 url-pattern에서 담당하게 됨
+  	/testServlet1.do의 이름인 test1과 이름이 같은 servlet태그로 넘어가서 위치를 알아오는 흐름 
+   -->
+  
+</web-app>
