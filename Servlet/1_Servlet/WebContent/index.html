@@ -74,24 +74,39 @@
 				</p>
 			</div>
 			<div class="col-md-4">
-				<h2>Heading</h2>
-				<p>Donec id elit non mi porta gravida at eget metus. Fusce
-					dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-					ut fermentum massa justo sit amet risus. Etiam porta sem malesuada
-					magna mollis euismod. Donec sed odio dui.</p>
+				<h2>Servlet - 2</h2>
 				<p>
-					<a class="btn btn-secondary" href="#" role="button">View
+					POST방식은 URL에 변수(데이터)를 노출하지 않고 요청하는 것으로 보안 유지가 가능하다.
+					데이터를 Body에 포함하여 전송하므로 Body의 데이터를 설명하는 Content-type 헤더필드가 들어가고 어떤 타입인지 명시해줘야 한다.
+					Body에 데이터가 들어가 전송 길이는 제한이 없지만 최대 요청 받는 시간(time out)이 존재해 페이지 요청, 기다리는 시간이 있다.
+					URL에 데이터가 노출되지 않아 즐겨찾기나 캐싱이 불가능 하다.
+				</p>
+				<p>
+					<a class="btn btn-secondary" href="servlet/testServlet2.html" role="button">View
 						details &raquo;</a>
 				</p>
 			</div>
 			<div class="col-md-4">
-				<h2>Heading</h2>
-				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-					nibh, ut fermentum massa justo sit amet risus.</p>
+				<h2>Servlet -3</h2>
 				<p>
-					<a class="btn btn-secondary" href="#" role="button">View
+					서블릿은 화면에 표현될 html코드를 프로그램적으로 작성한다.
+					이것으로 생기는 단점은 비즈니스 로직과 화면 구현 디자인이 같이 있어 가독성이 떨어지고 개발이 어렵다.
+					이러한 구조는 협업을 중요하게 생각하는 개발자들의 입장에서 좋지 않은 코드이므로 비즈니스 로직과 디자인은 분리되는 것이 좋다.
+					또한 html파일 수정 시 서버를 재시동해야 하고 html에는 서버에서 얻어온 정보를 동적으로 반영하기 힘들다.
+				
+				</p>
+				<p>
+					<a class="btn btn-secondary" href="servlet/testServlet3.html" role="button">View
+						details &raquo;</a>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h2>Servlet -4</h2>
+				<p>
+					Servlet + JSP				
+				</p>
+				<p>
+					<a class="btn btn-secondary" href="servlet/testServlet4.html" role="button">View
 						details &raquo;</a>
 				</p>
 			</div>

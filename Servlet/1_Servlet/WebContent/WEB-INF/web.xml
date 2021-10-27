@@ -24,4 +24,31 @@
   	/testServlet1.do의 이름인 test1과 이름이 같은 servlet태그로 넘어가서 위치를 알아오는 흐름 
    -->
   
+  <servlet>
+  	<servlet-name>test2</servlet-name>
+  	<servlet-class>com.kh.servlet.TestServlet2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>test2</servlet-name>
+  	<url-pattern>/testServlet2.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>test3</servlet-name>
+  	<servlet-class>com.kh.servlet.TestServlet3</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>test3</servlet-name>
+  	<url-pattern>/testServlet3.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>test4</servlet-name>
+  	<servlet-class>com.kh.servlet.TestServlet4</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>test4</servlet-name>
+  	<url-pattern>/testServlet4.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
