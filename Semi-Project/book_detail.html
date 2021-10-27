@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css"
+        integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>상세 보기</title>
+    <style>
+        .fa-bell {
+            color: white;
+            text-align: right;
+            padding: 15px;
+            font-size: 20px;
+        }
+        .fa-university {color: #404040; padding-right: 10px; font-size: 35px;}
+        nav {
+            height: 60px;
+            background: #aacec2;
+            position: sticky;
+            text-align: center;
+            top: 5px;
+            z-index: 1;
+        }
+        header {
+            height: 100px;
+            background: #aacec2;
+            padding: 30px;
+            font-size: 45px;
+            font-weight: bold;
+            padding-top: 10px;
+            z-index: 1;
+        }
+        header a {
+            text-decoration: none;
+            color: #404040;
+            z-index: 1;
+        }
+        nav ul {padding-left: 30%;}
+        nav li {
+            display: inline-block;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+            z-index: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .header-item a {
+            text-align: center;
+            text-decoration: none;
+            color: #404040;
+            display: block;
+            padding: 10px 50px 0px 50px;
+            line-height: 35px;
+        }
+        #notification {float: right;}
+        .btn-dark {
+            width: 70px;
+            height: 80%;
+            font-size: 13px;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: grey;
+            border: 1px solid grey;
+        }
+        .navbar-brand {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 900;
+            font-size: 40px;
+            height: 100px;
+            line-height: 80px;
+        }
+        .nav-pills {background-color: dimgrey;}
+        .breadcrumb {background-color: rgb(41, 128, 185); border-radius: 0%;}
+        .breadcrumb-item {
+            margin-left: 20px;
+            font-size: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+        }
+        .form-control {width: 300px; display: inline;}
+        #field {width: 500px; margin: 0 auto;}
+        .form-label {
+            padding-bottom: 30px;
+            padding-right: 20px;
+        }
+        .form-group {
+            padding-top: 20px;
+        }
+        #confirm {
+            float: right;
+            width: 35%;
+        }
+        .btn-primary {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        
+        
+        #homeNav{padding-left: 19%; padding-top: 15px;}
+        #homeNav>a{color: #666;}
+        .bookInfo{padding-left: 20%; padding-top: 25px; position: relative;}
+        #detail_simple{position: relative;}
+        #detail_simple>a{position: absolute;}
+        #ebookTag{
+        	cursor: default;
+        	font-size: 13px;
+	        text-align: center; 
+	        width: 75px; 
+	        height: 23px; 
+	        color: white; 
+	        background: rgba(102, 102, 102, 0.7); 
+	        z-index: 999;
+        }
+        #bookName{padding-left: 33%; text-decoration: none;}
+        #title{color: black;}
+        .simpleInfo{
+        	font-size: 10px; 
+        	color: #666;
+        	cursor: default;
+        }
+        #epub{
+        	text-align: center;
+        	display: inline-block;
+        	width: 40px;
+        	border-radius: 10%;
+        	font-size: 8px; 
+        	background: lightgray; 
+        	color: black;
+        }
+        #borrow{
+        	width: 120px;
+        	height: 40px;
+        	margin-top: 25px;
+        	border-radius: 7%;
+        	border: 0px;
+        	background: #2980b9;
+        	color: white;
+        	font-size: 15px;
+			font-weight: bold;
+        }
+        #count{
+        	text-align: center;
+        	margin-left: 15px;
+        	padding-top: 10px;
+        	padding-bottom: 10px;
+        	padding-left: 10px;
+        	padding-right: 10px;
+        	border-radius: 7%;
+        	font-size: 15px;
+         	font-weight: bold;
+         	background: lightgray;
+        	color: dimgray;
+        }
+        #tabBar{position: relative; display: inline-block; text-align: center; margin: 0 auto;}
+        #barLi{list-style: none; display: inline-block; margin: 0 auto;}
+        #tab1{float: left;}
+        #bookIntro, #authorIntro, #contents{
+        	display: inline-block; 
+        	width: 100px;
+        	padding-top: 7px;
+        	padding-bottom: 7px;
+        	float: left;
+        	background: #aacec2;
+        	color: white;
+        	font-weight: bold;
+        	border: 1px solid dimgray;
+        	border-radius: 5%;
+        	cursor: pointer;
+        }
+        #authorIntro{
+        	background: #f8f8f8;
+        	color: dimgray;
+        }
+        #contents{
+        	background: #f8f8f8;
+        	color: dimgray;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <a class="navbar-brand" href="./main/main.html"><i class="fa fa-university" aria-hidden="true"></i>신우대학교</a>
+
+        <div id="notification">
+            <i class="fa fa-bell" aria-hidden="true"></i>
+            <button type="button" class="btn btn-dark">로그인</button>
+        </div>
+    </header>
+    <nav class="nav">
+        <ul>
+            <li class="header-item"><a href="http://www.naver.com">도서관 소개</a></li>
+            <li class="header-item"><a href="http://www.naver.com">도서신청</a></li>
+            <li class="header-item"><a href="http://www.naver.com">마이페이지</a></li>
+        </ul>
+    </nav>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">상세 보기</li>
+    </ol>
+    
+    <div id="homeNav" class="left">
+    	<a id="btn_home" href="./main/main.html" role="button">홈</a> > 
+    	<a id="btn_category" href="" role="button">소설/희곡</a> > <a>상세보기</a>
+    </div>
+   	<hr>
+   	<div id="detail_simple" class="bookInfo">
+   		<a id="bookImg"><img src="http://image.yes24.com/goods/77223021/M"></a>
+   		<a id="ebookTag">전자책</a>
+   	</div>
+   	<div id="bookName">
+   		<a id="title"><b>지구에서 한아뿐</b></a>
+   		<br>
+   		<hr>
+   		<a class="simpleInfo"><b>글쓴이</b></a> &nbsp;&nbsp; <a class="simpleInfo">정세랑</a>
+   		<br>
+   		<a class="simpleInfo"><b>출판사</b></a> &nbsp;&nbsp; <a class="simpleInfo">난다</a>
+   		<br>
+   		<a class="simpleInfo"><b>출간일</b></a> &nbsp;&nbsp; <a class="simpleInfo">2019.07.31</a>
+   		<br>
+   		<a class="simpleInfo"><b>제공형태(크기):</b></a> &nbsp;&nbsp;<a id="epub">ePUB</a> <a class="simpleInfo">16M</a>
+   		<br>
+   		<button onclick="borrow(returnDay);" id="borrow">대출하기</button>
+   		<script>
+   			function rtDay(date) {
+	   				var today = new Date();
+	  				var twoWeeks = new Date(today.setDate(today.getDate() + 14));
+					
+	  				var year = twoWeeks.getFullYear();
+	  				var month = (1 + twoWeeks.getMonth());
+	  				var day = twoWeeks.getDate();
+	  				return year + '-' + month + '-' + day;
+   			}
+					var returnDay = rtDay(new Date());
+	  				console.log(returnDay);
+	  		function borrow(returnDay){
+	   				alert('도서가 대출되었습니다.\n' + returnDay + ' 까지 이용하실 수 있습니다.');
+	  		}
+   		</script>
+   		<a id="count">대출   &nbsp;&nbsp; 1 / 2</a>
+   	</div>
+   		<br><br>
+   	<div id="tabBar" class="bookInfo">
+ 		<span id="bookIntro">책 소개</span>
+ 		<span id="authorIntro">저자 소개</span>
+		<span id="contents">목차</span>
+   	</div>
+</body>
+</html>
