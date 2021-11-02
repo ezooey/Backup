@@ -120,7 +120,7 @@
         #bookName{padding-left: 33%; text-decoration: none;}
         #title{color: black;}
         .simpleInfo{
-        	font-size: 10px; 
+        	font-size: 13px; 
         	color: #666;
         	cursor: default;
         }
@@ -132,6 +132,7 @@
         	font-size: 8px; 
         	background: lightgray; 
         	color: black;
+        	cursor: default;
         }
         #borrow{
         	width: 120px;
@@ -156,11 +157,12 @@
          	font-weight: bold;
          	background: lightgray;
         	color: dimgray;
+        	cursor: default;
         }
         #tabBar{position: relative; display: inline-block; text-align: center; margin: 0 auto;}
         #barLi{list-style: none; display: inline-block; margin: 0 auto;}
         #tab1{float: left;}
-        #bookIntro, #authorIntro, #contents{
+        #bookIntro{
         	display: inline-block; 
         	width: 100px;
         	padding-top: 7px;
@@ -171,17 +173,26 @@
         	font-weight: bold;
         	border: 1px solid dimgray;
         	border-radius: 5%;
-        	cursor: pointer;
-        }
-        #authorIntro{
-        	background: #f8f8f8;
-        	color: dimgray;
+        	cursor: default;
         }
         #contents{
         	background: #f8f8f8;
         	color: dimgray;
         }
-        
+        #bookIntro{border: 2px solid lightgray;}
+        #introduce{
+        	margin-left: 20%;
+        	margin-right: 20%;
+        	padding-bottom: 25px;
+        	text-align: left;
+        	color: dimgray;
+        }
+        #separate{
+        	margin-top: 0px; 
+        	margin-bottom: 25px;
+        	margin-left: 20%;
+        	margin-right: 20%;
+        }
     </style>
 </head>
 
@@ -219,13 +230,13 @@
    		<a id="title"><b>지구에서 한아뿐</b></a>
    		<br>
    		<hr>
-   		<a class="simpleInfo"><b>글쓴이</b></a> &nbsp;&nbsp; <a class="simpleInfo">정세랑</a>
+   		<span class="simpleInfo"><b>글쓴이 &nbsp;&nbsp; </b></span><span class="simpleInfo">정세랑</span>
    		<br>
-   		<a class="simpleInfo"><b>출판사</b></a> &nbsp;&nbsp; <a class="simpleInfo">난다</a>
+   		<span class="simpleInfo"><b>출판사 &nbsp;&nbsp; </b></span><span class="simpleInfo">난다</span>
    		<br>
-   		<a class="simpleInfo"><b>출간일</b></a> &nbsp;&nbsp; <a class="simpleInfo">2019.07.31</a>
+   		<span class="simpleInfo"><b>출간일 &nbsp;&nbsp; </b></span><span class="simpleInfo">2019.07.31</span>
    		<br>
-   		<a class="simpleInfo"><b>제공형태(크기):</b></a> &nbsp;&nbsp;<a id="epub">ePUB</a> <a class="simpleInfo">16M</a>
+   		<span class="simpleInfo"><b>제공형태(크기): &nbsp;&nbsp;</b></span><span id="epub">ePUB</span><span class="simpleInfo"> 16M</span>
    		<br>
    		<button onclick="borrow(returnDay);" id="borrow">대출하기</button>
    		<script>
@@ -248,9 +259,20 @@
    	</div>
    		<br><br>
    	<div id="tabBar" class="bookInfo">
- 		<span id="bookIntro">책 소개</span>
- 		<span id="authorIntro">저자 소개</span>
-		<span id="contents">목차</span>
+ 		<span id="bookIntro">책 소개</span><br>
    	</div>
+   	<hr id="separate">
+   	<fieldset id="introduce">
+		<div>
+			사랑을 위해 2만 광년을 날아온 외계인!<br><br>
+		
+			자신의 사랑이 우주에서 단 하나뿐임을 바라는 연인들을 위한 이야기 『지구에서 한아뿐』. SF, 로맨스, 호러, 스릴러 등 장르의 경계를 넘나드는 작가 정세랑의 소설이다. 
+			친환경 디자이너 한아와 그녀의 외계인 남자친구 경민의 알콩달콩하면서도 범우주적인 사랑 이야기를 그리고 있다.<br><br>
+		
+			지구 환경을 지키기 위해 저탄소 생활을 하는 디자이너 한아. 그녀에게는 경민이라는 남자친구가 있다. 경민은 자신이 하고 싶은 대로 살면서 늘 한아를 기다리게 하는 자유로운 영혼이다. 
+			캐나다로 별똥별을 보기 위해 여행을 떠난 경민에게 연락이 없던 어느 날, 한아는 캐나다에 소형 운석이 떨어지면서 큰 폭발이 있었다는 뉴스를 본다. 
+			경민을 걱정하는 한아 앞에 며칠 뒤 아무렇지도 않은 듯 경민이 나타나지만, 평소와 달리 지나치게 다정해진 그를 보고 한아의 의심은 커져만 가는데….
+		</div>
+   	</fieldset>
 </body>
 </html>
