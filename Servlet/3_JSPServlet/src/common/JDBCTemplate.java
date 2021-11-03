@@ -1,5 +1,6 @@
 package common;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,8 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+
 public class JDBCTemplate {
-	private static Connection conn = null;
 	
 	private JDBCTemplate() {}
 
@@ -20,21 +21,23 @@ public class JDBCTemplate {
 		
 		String fileName = JDBCTemplate.class.getResource("/sql/driver.properties").getPath();
 		
-//		if(conn == null) {
+		if(conn == null) {
 			try {
 				prop.load(new FileReader(fileName));
 				
-//				Class.forName(prop.getProperty("driver"));
+				Class.forName(prop.getProperty("driver"));
 				
-//				conn = DriverManager.getConnection(prop.getProperty("url"),
-//												prop.getProperty("user"),
-//												prop.getProperty("password"));
+				conn = DriverManager.getConnection(prop.getProperty("url"),
+												prop.getProperty("user"),
+												prop.getProperty("password"));
 				
-				Class.forName("oracle.jdbc.driver.OracleDriver");
-				
-				conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",
-													"JSP_Servlet", "JSP_Servlet");
+//				Class.forName("oracle.jdbc.driver.OracleDriver");
+//				
+//				conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",
+//													"JSP_Servlet", "JSP_Servlet");
 				conn.setAutoCommit(false);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -42,7 +45,7 @@ public class JDBCTemplate {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-//		}
+		}
 		return conn;
 	}
 	

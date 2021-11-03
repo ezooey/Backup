@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	Member loginUser = (Member)session.getAttribute("loginUser");
+%>
+<!-- 
+	loginUser를 가져오기 위해 getAttribute사용, 
+	loginUser는 Member이기 때문에 Member로 형변환,
+	Member를 가져오기 위해 import 필요
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +40,7 @@
 	<h1 align="center">Welcome to JSP&amp;Servlet World!</h1>
 	
 	<div class="loginArea">
+	<% if(loginUser == null) { %>
 		<form id="loginForm" action="<%= request.getContextPath() %>/login.me" method="post">
 			<table id="loginTable">
 				<tr>
@@ -45,9 +54,19 @@
 			</table>
 			<div class="loginBtns">
 				<input type="submit" value="로그인">
-				<input type="button" value="회원가입">
+				<input type="button" value="회원가입" onclick="location.href='<%= request.getContextPath() %>/signUpForm.me'">
 			</div>
 		</form>
+	<% } else { %>
+		<div id="userInfo" align="right">
+			<label><%= loginUser.getUserName() %>님의 방문을 환영합니다.</label>
+			<br clear="all">
+			<div class="loginBtns">
+				<input type="button" value="내 정보 보기">
+				<input type="button" value="로그아웃" onclick="location.href='<%= request.getContextPath() %>/logout.me'">
+			</div>
+		</div>
+	<% } %>
 	</div>
 	<br clear="all">
 </body>
