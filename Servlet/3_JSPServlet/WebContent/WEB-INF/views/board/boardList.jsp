@@ -52,7 +52,7 @@
 							<td><%= list.get(i).getBoardId() %></td>
 							<td><%= list.get(i).getCategory() %></td>
 							<td><%= list.get(i).getBoardTitle() %></td>
-							<td><%= list.get(i).getBoardWriter() %></td>
+							<td><%= list.get(i).getNickName() %></td>
 							<td><%= list.get(i).getBoardCount() %></td>
 							<td><%= list.get(i).getCreateDate() %></td>
 						</tr>
@@ -65,11 +65,51 @@
 			<!-- 맨 처음으로 -->
 			<button onclick="location.href='<%= request.getContextPath() %>/list.bo?currentPage=1'">&lt;&lt;</button>
 			<!-- 이전 페이지로 -->
+			<button id="beforeBtn" onclick="location.href='<%= request.getContextPath() %>/list.bo?currentPage=<%= pi.getCurrentPage()-1 %>'">&lt;</button>
+			<script>
+				if(<%= pi.getCurrentPage() %> <= 1){
+					$('#beforeBtn').prop('disabled', true);
+				}
+			</script>
 			<!-- 숫자 버튼 -->
+			<% for(int p = pi.getStartPage(); p <= pi.getEndPage(); p++) { %>
+			<%		if(p == pi.getCurrentPage()) { %>				
+						<button id="choosen" disabled><%= p %></button>
+			<%		} else { %>
+						<button id="numBtn" onclick="location.href='<%= request.getContextPath() %>/list.bo?currentPage=<%= p %>'"><%= p %></button>
+			<%		} %>
+			<% } %>
 			<!-- 다음 페이지로 -->
+			<button id="afterBtn" onclick="location.href='<%= request.getContextPath() %>/list.bo?currentPage=<%= pi.getCurrentPage()+1 %>'">&gt;</button>
+			<script>
+				if(<%= pi.getCurrentPage() %> >= <%= pi.getMaxPage() %>){
+					$('#afterBtn').prop('disabled', true);
+				}
+			</script>
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.bo?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.bo?currentPage=<%= pi.getMaxPage() %>'">&gt;&gt;</button>
+		</div>
+		
+		<div class="buttonArea" align="right">
+			<% if(loginUser != null){ %>
+			<button onclick="location.href='<%= request.getContextPath() %>/writeBoardForm.bo'">작성하기</button>
+			<% } %>
 		</div>
 	</div>
+	<script>
+		$('#listArea td').mouseenter(function(){
+			$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
+		}).mouseout(function(){
+			$(this).parent().css('background', 'none');
+		}).click(function(){
+			var bId = $(this).parent().children().eq(0).text();
+			
+			if('<%= loginUser %>' != 'null'){ /* 변수처럼 들어가지 않도록 ' '로 묶음 */
+				location.href='<%= request.getContextPath() %>/detail.bo?bId=' + bId;
+			} else {
+				alert('회원만 이용할 수 없는 서비스입니다.');
+			}
+		});
+	</script>
 </body>
 </html>

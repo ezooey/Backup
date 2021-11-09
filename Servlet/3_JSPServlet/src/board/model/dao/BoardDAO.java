@@ -110,4 +110,142 @@ public class BoardDAO {
 		
 		return list;
 	}
+
+	public int insertBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertBoard");
+		// insertBoard = INSERT INTO BOARD VALUES(SEQ_BID.NEXTVAL, ?, ?, ?, ?, ?, DEFAULT, SYSDATE, SYSDATE, DEFAULT)
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, b.getBoardType());
+			pstmt.setInt(2, Integer.parseInt(b.getCategory()));
+			pstmt.setString(3, b.getBoardTitle());
+			pstmt.setString(4, b.getBoardContent());
+			pstmt.setString(5, b.getBoardWriter());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public Board selectBoard(Connection conn, int bId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectBoard");
+		// selectBoard = SELECT * FROM BDETAIL WHERE BOARD_ID = ?
+		/*
+		CREATE OR REPLACE VIEW BDETAIL
+		AS
+		SELECT BOARD_ID, BOARD_TYPE, CATE_NAME, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER,
+		       NICKNAME, BOARD_COUNT, CREATE_DATE, B.MODIFY_DATE, B.STATUS
+		FROM BOARD B
+		     JOIN MEMBER M ON(USER_ID = BOARD_WRITER)
+		     JOIN CATEGORY C USING(CATE_ID)
+		WHERE B.STATUS = 'Y';
+		 */
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board(rset.getInt("BOARD_ID"),
+							  rset.getInt("BOARD_TYPE"),
+							  rset.getString("CATE_NAME"),
+							  rset.getString("BOARD_TITLE"),
+							  rset.getString("BOARD_CONTENT"),
+							  rset.getString("BOARD_WRITER"),
+							  rset.getString("NICKNAME"),
+							  rset.getInt("BOARD_COUNT"),
+							  rset.getDate("CREATE_DATE"),
+							  rset.getDate("MODIFY_DATE"),
+							  rset.getString("STATUS"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return b;
+	}
+
+	public int updateCount(Connection conn, int bId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateCount");
+		// updateCount = UPDATE BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_ID = ?
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateBoard");
+		// updateBoard = UPDATE BOARD SET CATE_ID = ?, BOARD_TITLE = ?, BOARD_CONTENT = ? WHERE BOARD_ID = ?
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(b.getCategory()));
+			pstmt.setString(2, b.getBoardTitle());
+			pstmt.setString(3, b.getBoardContent());
+			pstmt.setInt(4, b.getBoardId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteBoard(Connection conn, int bId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteBoard");
+		// deleteBoard = UPDATE BOARD SET STATUS = 'N' WHERE BOARD_ID = ?
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

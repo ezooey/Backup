@@ -58,7 +58,7 @@ public class BoardListServlet extends HttpServlet {
 		boardLimit = 10;
 		
 		// 페이징처리 4단계 : 각 변수에 알맞은 계산식 작성
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		maxPage = (int)Math.ceil(listCount/(double)boardLimit);
 		// 나머지가 생기도록 둘 중 하나를 double로 형변환(나머지가 있어야 다음 페이지가 생김 ex.글 개수 11개 -> 2페이지로 넘어감)
 		
 		startPage = ((currentPage - 1) / pageLimit) * pageLimit + 1;
@@ -67,7 +67,7 @@ public class BoardListServlet extends HttpServlet {
 		// => currentPage - 1을 먼저 해준다
 		
 		endPage = startPage + pageLimit - 1; // pageLimit을 다 못 채울 경우 문제됨
-		if(maxPage < endPage) { // 만약 endPage가 maxPage보다 작으면 endPage를 maxPage로 대체한다.
+		if(endPage < maxPage) { // 만약 endPage가 maxPage보다 작으면 endPage를 maxPage로 대체한다.
 			endPage = maxPage;
 		}
 		

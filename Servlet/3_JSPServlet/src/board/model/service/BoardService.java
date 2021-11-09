@@ -32,4 +32,71 @@ public class BoardService {
 		return list;
 	}
 
+	public int insertBoard(Board b) {
+		Connection conn = getConnection();
+		
+		int result = bDAO.insertBoard(conn, b);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+	public Board selectBoard(int bId, String upd) {
+		Connection conn = getConnection();
+		
+		int result = 0;
+		if(!(upd != null && upd.equals("Y"))) { // upd가 있을 때만 조회수 업데이트를 하는 조건
+			result = bDAO.updateCount(conn, bId);
+		}
+		
+		Board b = null;
+		
+		b = bDAO.selectBoard(conn, bId);
+		if(result > 0 && b != null) {
+				commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return b;
+	}
+
+	public int updateBoard(Board b) {
+		Connection conn = getConnection();
+		
+		int result = bDAO.updateBoard(conn, b);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+	public int deleteBoard(int bId) {
+		Connection conn = getConnection();
+		
+		int result = bDAO.deleteBoard(conn, bId);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
 }
