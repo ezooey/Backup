@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import board.model.dao.BoardDAO;
+import board.model.vo.Attachment;
 import board.model.vo.Board;
 import board.model.vo.PageInfo;
 
@@ -97,6 +98,38 @@ public class BoardService {
 		
 		close(conn);
 		return result;
+	}
+
+	public ArrayList selectTList(int i) { // 여러 타입으로 가져올 것이기 때문에 ArrayList타입 정하지 않음
+		Connection conn = getConnection();
+		
+		ArrayList list = null;
+		
+		if(i == 1) {
+			list = bDAO.selectBList(conn);
+		} else {
+			list = bDAO.selectFList(conn);
+		}
+		
+		close(conn);
+		
+		return list;
+	}
+
+	public int insertThumbnail(Board b, ArrayList<Attachment> fileList) {
+		Connection conn = getConnection();
+		
+		int result1 = bDAO.insertBoard(conn, b);
+		int result2 = bDAO.insertAttachment(conn, fileList);
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1 + result2; // 둘 중 아무거나 보내도 상관은 없음
 	}
 
 }

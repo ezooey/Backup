@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import board.model.vo.Attachment;
 import board.model.vo.Board;
 import board.model.vo.PageInfo;
 
@@ -245,6 +246,101 @@ public class BoardDAO {
 		} finally {
 			close(pstmt);
 		}
+		
+		return result;
+	}
+
+	public ArrayList selectBList(Connection conn) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectBList");
+		//selectBList = SELECT * FROM BLIST WHERE BOARD_TYPE = 2
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			list = new ArrayList<Board>();
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("BOARD_ID"),
+								   rset.getInt("BOARD_TYPE"),
+								   rset.getString("CATE_NAME"),
+								   rset.getString("BOARD_TITLE"),
+								   rset.getString("BOARD_CONTENT"),
+								   rset.getString("BOARD_WRITER"),
+								   rset.getString("NICKNAME"),
+								   rset.getInt("BOARD_COUNT"),
+								   rset.getDate("CREATE_DATE"),
+								   rset.getDate("MODIFY_DATE"),
+								   rset.getString("STATUS")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		return list;
+	}
+
+	public ArrayList selectFList(Connection conn) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		ArrayList<Attachment> list = null;
+		
+		String query = prop.getProperty("selectFList");
+		
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			list = new ArrayList<Attachment>();
+			
+			while(rset.next()) {
+				Attachment a = new Attachment();
+				a.setBoardId(rset.getInt("BOARD_ID"));
+				a.setChangeName(rset.getString("CHANGE_NAME"));
+				
+				list.add(a);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return list;
+	}
+
+	public int insertAttachment(Connection conn, ArrayList<Attachment> fileList) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertAttachment");
+		// FILE_ID BOARD_ID ORIGIN_NAME CHANGE_NAME FILE_PATH UPLOAD_DATE FILE_LEVEL DOWNLOAD_COUNT STATUS
+		// insertAttachment = INSERT INTO ATTACHMENT VALUES(SEQ_FID.NEXTVAL, SEQ_BID.CURRVAL, ?, ?, ?, SYSDATE, ?, DEFAULT)
+		
+			
+			try {
+				for(int i = 0; i < fileList.size(); i++) {
+					
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, fileList.get(i).getOriginName());
+					pstmt.setString(2, fileList.get(i).getChangeName());
+					pstmt.setString(3, fileList.get(i).getFilePath());
+					pstmt.setInt(4, fileList.get(i).getFileLevel());
+					
+					result += pstmt.executeUpdate();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
 		
 		return result;
 	}
