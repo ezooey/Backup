@@ -1,6 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,19 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.model.service.BoardService;
+import board.model.vo.Attachment;
 import board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardUpdateFormServlet
+ * Servlet implementation class ThumbnailDetailServlet
  */
-@WebServlet("/boardUpdateForm.bo") // boardDetail.jsp에서 넘어와서 boardUpdateForm.jsp로 넘어감
-public class BoardUpdateFormServlet extends HttpServlet {
+@WebServlet("/detail.th")
+public class ThumbnailDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardUpdateFormServlet() {
+    public ThumbnailDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,21 +32,24 @@ public class BoardUpdateFormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("UTF-8");
-		
 		int bId = Integer.parseInt(request.getParameter("bId"));
-		String category = request.getParameter("category");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
 		
-		Board b = new Board();
-		b.setBoardId(bId);
-		b.setCategory(category);
-		b.setBoardTitle(title);
-		b.setBoardContent(content);
+		BoardService service = new BoardService();
+//		String upd = null; // 수정할 때만 하는 거니까 여기서 필요없음 null로 지정해둠
+		Board board = service.selectBoard(bId, null);
+		ArrayList<Attachment> fileList = service.selectThumbnail(bId);
 		
-		request.setAttribute("b", b);
-		request.getRequestDispatcher("WEB-INF/views/board/boardUpdateForm.jsp").forward(request, response);
+		String page = null;
+		if(fileList != null) {
+			request.setAttribute("board", board);
+			request.setAttribute("fileList", fileList);
+			page = "WEB-INF/views/thumbnail/thumbnailDetail.jsp";
+		} else {
+			request.setAttribute("msg", "사진 게시판 상세보기 실패");
+			page = "WEB-INF/views/common/errorPage.jsp";
+		}
+		
+		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

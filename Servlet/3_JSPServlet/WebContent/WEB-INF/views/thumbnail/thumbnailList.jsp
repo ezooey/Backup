@@ -35,7 +35,7 @@
 						<div>
 							<input type="hidden" value="<%= b.getBoardId() %>">
 							<% for(int j = 0; j < fList.size(); j++){ %>
-								<% Attachment a = fList.get(i); %>
+								<% Attachment a = fList.get(j); %>
 								<% if(b.getBoardId() == a.getBoardId()){ %>
 									<img src="<%= request.getContextPath() %>/thumbnail_uploadFiles/<%= a.getChangeName() %>" width="200px" height="150px">
 								<% } %>
@@ -56,5 +56,11 @@
 			<% } %>
 		</div>
 	</div>
+	<script>
+		$('.thumb-list').click(function(){
+			var bId = $(this).children().children().eq(0).val();
+			location.href = "<%= request.getContextPath() %>/detail.th?bId=" + bId;
+		});
+	</script>
 </body>
 </html>

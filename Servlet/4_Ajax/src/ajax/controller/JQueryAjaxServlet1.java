@@ -1,26 +1,23 @@
-package board.controller;
+package ajax.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.vo.Board;
-
 /**
- * Servlet implementation class BoardUpdateFormServlet
+ * Servlet implementation class JQueryAjaxServlet1
  */
-@WebServlet("/boardUpdateForm.bo") // boardDetail.jsp에서 넘어와서 boardUpdateForm.jsp로 넘어감
-public class BoardUpdateFormServlet extends HttpServlet {
+@WebServlet("/jQueryAjax1.do")
+public class JQueryAjaxServlet1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardUpdateFormServlet() {
+    public JQueryAjaxServlet1() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,21 +26,9 @@ public class BoardUpdateFormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("UTF-8");
+		String myName = request.getParameter("name");
+		System.out.println(myName);
 		
-		int bId = Integer.parseInt(request.getParameter("bId"));
-		String category = request.getParameter("category");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		
-		Board b = new Board();
-		b.setBoardId(bId);
-		b.setCategory(category);
-		b.setBoardTitle(title);
-		b.setBoardContent(content);
-		
-		request.setAttribute("b", b);
-		request.getRequestDispatcher("WEB-INF/views/board/boardUpdateForm.jsp").forward(request, response);
 	}
 
 	/**
