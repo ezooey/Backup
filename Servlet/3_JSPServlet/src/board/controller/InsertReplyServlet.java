@@ -9,21 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import board.model.service.BoardService;
-import board.model.vo.Board;
 import board.model.vo.Reply;
 
 /**
- * Servlet implementation class BoardDetail
+ * Servlet implementation class InsertReplyServlet
  */
-@WebServlet("/detail.bo")
-public class BoardDetailServlet extends HttpServlet {
+@WebServlet("/insertReply.bo")
+public class InsertReplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardDetailServlet() {
+    public InsertReplyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,25 +34,23 @@ public class BoardDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int bId = Integer.parseInt(request.getParameter("bId")); // boardDetail.jsp에서 url에 bId로 보냈기 때문에
-		String update = request.getParameter("upd");
-		// 5시 7분
+		String writer = request.getParameter("writer");
+		String content = request.getParameter("content");
+		int bId = Integer.parseInt(request.getParameter("bId"));
 		
-		Board b = new BoardService().selectBoard(bId, update);
+		Reply r = new Reply();
+		r.setRefBId(bId);
+		r.setReplyWriter(writer);
+		r.setReplyContent(content);
 		
-		ArrayList<Reply> list = new BoardService().selectReplyList(bId);
+		ArrayList<Reply> list = new BoardService().insertReply(r); // insert여도 반환값이 int가 아니라 객체일 수 있음
 		
-		String page = null;
-		if(b != null) {
-			page = "WEB-INF/views/board/boardDetail.jsp";
-			request.setAttribute("board", b);
-			request.setAttribute("list", list);
-		} else {
-			page = "WEB-INF/views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 상세조회 실패");
-		}
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder(); // 날짜형식을 지정하려면 GsonBuilder 사용
+		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
+		Gson gson = gb2.create();
+		gson.toJson(list, response.getWriter());
 		
-		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

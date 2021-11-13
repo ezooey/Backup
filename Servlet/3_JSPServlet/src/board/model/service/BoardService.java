@@ -8,6 +8,7 @@ import board.model.dao.BoardDAO;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
 import board.model.vo.PageInfo;
+import board.model.vo.Reply;
 
 public class BoardService {
 	
@@ -130,6 +131,45 @@ public class BoardService {
 		
 		close(conn);
 		return result1 + result2; // 둘 중 아무거나 보내도 상관은 없음
+	}
+
+	public ArrayList<Attachment> selectThumbnail(int bId) {
+		Connection conn = getConnection();
+		ArrayList<Attachment> list = bDAO.selectThumbnail(bId, conn);
+		
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<Reply> selectReplyList(int bId) {
+		Connection conn = getConnection();
+		ArrayList<Reply> list = bDAO.selectReplyList(conn, bId);
+		
+		close(conn);
+		return list;
+	}
+
+	public ArrayList<Reply> insertReply(Reply r) {
+		Connection conn = getConnection();
+		
+		int result = bDAO.insertReply(conn, r); // 일단 여기선 int로 반환
+		
+		ArrayList<Reply> list = null;
+		if(result > 0) {
+			list = bDAO.selectReplyList(conn, r.getRefBId());
+			
+			if(list != null) {
+				commit(conn);
+			} else {
+				rollback(conn);
+			}
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return list;
 	}
 
 }

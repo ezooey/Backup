@@ -1,12 +1,15 @@
 package member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import member.model.service.MemberService;
 
@@ -33,10 +36,15 @@ public class CheckIdServlet extends HttpServlet {
 		
 		int result = new MemberService().checkId(inputId);
 		
-		request.setAttribute("result", result);
-		request.setAttribute("checkedId", inputId); // 값이 날아가지 않게 잡아둠
+		PrintWriter out = response.getWriter();
+		out.println(result);
+		out.flush();
+		out.close();
 		
-		request.getRequestDispatcher("WEB-INF/views/member/checkIdForm.jsp").forward(request, response);
+//		request.setAttribute("result", result);
+//		request.setAttribute("checkedId", inputId); // 중복확인 아이디 값으로 입력한 값이 날아가지 않게 잡아둠
+//		
+//		request.getRequestDispatcher("WEB-INF/views/member/checkIdForm.jsp").forward(request, response);
 	}
 
 	/**

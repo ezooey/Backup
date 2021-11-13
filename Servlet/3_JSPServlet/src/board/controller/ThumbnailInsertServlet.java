@@ -56,8 +56,8 @@ public class ThumbnailInsertServlet extends HttpServlet {
 			String savePath = root + "thumbnail_uploadFiles/";
 			
 			File f = new File(savePath);
-			if(!f.exists()) {
-				f.mkdirs();
+			if(!f.exists()) { // f가 존재하지 않으면
+				f.mkdirs(); // 디렉토리를 만들어줘
 			}
 			
 			// DefaultFileRenamePolicy(cos.jar 안에 존재)

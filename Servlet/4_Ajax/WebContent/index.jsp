@@ -134,5 +134,163 @@
 			});
 		});
 	</script>
+	
+	<h3>6. 서버로 기본 값 전송, 서버에서 리스트 객체 반환</h3>
+	<h4>유저 번호 요청 --> 해당 유저가 있는 경우 유저 정보, 없는 경우 전체 가져오기</h4>
+	유저 번호 : <input type="text" id="userNo2"><br>
+	<button id="getUserInfoBtn2">정보 가져오기</button>
+	<p class="test" id="p4"></p>
+	<textarea class="test" id="textarea4" rows="5" cols="40"></textarea>
+	<script>
+		$('#getUserInfoBtn2').click(function(){
+			$.ajax({
+				url: 'jQueryAjax6.do',
+				data: {userNo:$('#userNo2').val()},
+				success: function(data){
+					console.log(data);
+					
+					var resultStr = "";
+					var resultStr2 = "";
+					for(var i in data){
+						var user = data[i];
+						resultStr += user.userNo + ", " + user.userName + ", " + user.userNation + "<br>";
+						resultStr2 += user.userNo + ", " + user.userName + ", " + user.userNation + "\n";
+					}
+					
+					$('#p4').html(resultStr);
+					$('#textarea4').val(resultStr2); // 텍스트에어리어에서는 \n로 줄바꿈!
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		});
+	</script>
+	
+	<h3>7. 서버로 데이터 여러 개 전송, 서버에서 리스트 객체 반환</h3>
+	<h4>유저 번호 전송 --> 현재 있는 유저 정보만 모아서 출력</h4>
+	<h4>10 이상의 숫자는 ','로 쓸 수 없다고 설정</h4>
+	유저 번호(번호,번호,번호) : <input type="text" id="userNo3"><br>
+	<button id="getUserInfoBtn3">정보 가져오기</button>
+	<textarea class='test' id='textarea5' rows="5" cols="40"></textarea>
+	<script>
+		$('#getUserInfoBtn3').click(function(){
+			$.ajax({
+				url: 'jQueryAjax7.do',
+				data: {userNo:$('#userNo3').val()},
+				success: function(data){
+					console.log(data);
+					var result = '';
+					for(var i in data.list){
+						result += data.list[i].userNo + ", " + data.list[i].userName + ", " + data.list[i].userNation + "\n";
+					}
+					
+					$('#textarea5').val(result);
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		});
+	</script>
+	
+	<h3>8. 서버 유저 정보로 표 구성하기</h3>
+	<button id="userInfoBtn">유저 정보 불러오기</button><br><br>
+	<table id="userInfoTable" border='1' cellpadding='0' cellspacing='0'>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>국적</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<script>
+		$('#userInfoBtn').click(function(){
+			$.ajax({
+				url: 'jQueryAjax8.do',
+				success: function(data){
+					console.log(data);
+					
+					var $tableBody = $('#userInfoTable tbody'); 
+					// 변수명의 $는 제이쿼리를 이용해서 만든 값이 들어있음을 알려줌
+					$tableBody.html(''); // 한 번 비워주는 용도(여러 번 눌러도 이어붙여서 나오지 않게 함)
+					
+					$.each(data, function(index, value){
+						var $tr = $('<tr>');
+						var $noTd = $('<td>').text(value.userNo);
+						var $nameTd = $('<td>').text(value.userName);
+						var $nationTd = $('<td>').text(value.userNation);
+						
+						$tr.append($noTd);
+						$tr.append($nameTd);
+						$tr.append($nationTd);
+						
+						$tableBody.append($tr);
+					});
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		});
+	</script>
+	
+	<h3>9. 서버에서 List객체 반환 받아 select태그를 이용해서 보여줌</h3>
+	유저 이름 : <input type="text" id="selectUserName">
+	<button id="selectListBtn">검색</button><br>
+	<select id="selectListTest"></select>
+	<script>
+		$('#selectListBtn').click(function(){
+			$.ajax({
+				url: 'jQueryAjax8.do',
+				success: function(data){
+					console.log(data);
+					
+					$select = $('#selectListTest'); // var 안 써도 상관x
+					$select.find('option').remove(); // 이어붙임 방지
+					
+					for(var i = 0; i < data.length; i++){
+						var name = data[i].userName;
+						var selected = (name == $('#selectUserName').val()) ? 'selected' : '';
+						
+						$select.append('<option value="' + data[i].userNo + '" ' + selected + ">" + name + "</option>");
+					}
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		});
+	</script>
+	
+	<h3>10. GSON을 이용한 List 반환</h3>
+	<button id="gsonListBtn">list 가져오기</button>
+	<select id="gsonListSelect"></select>
+	<script>
+		$('#gsonListBtn').click(function(){
+			$.ajax({
+				url: 'jQueryAjax9.do',
+				success: function(data){
+					console.log(data);
+					
+					$select = $('#gsonListSelect');
+					$select.find('option').remove();
+					
+					for(var i in data){
+						var $option = $('<option>');
+						$option.val(data[i].userNo);
+						$option.text(data[i].userName);
+						
+						$select.append($option);
+					}
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		});
+	</script>
 </body>
 </html>
