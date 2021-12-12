@@ -33,4 +33,33 @@
 	 	<result column="UPDATE_DATE" property="updateDate"/>
 	 	<result column="M_STATUS" property="mStatus"/>
 	 </resultMap>
+	 
+	 <insert id="insertMember" parameterType="member.model.vo.Member">
+	 <!-- 
+	 	insert할 때는 반환형이 int. resultMap을 쓰지 않아도 됨 
+	 	select할 때에만 resultType/resultMap을 쓴다
+	 -->
+	 	insert into Member
+	 	values(#{userId}, #{userPwd}, #{userName}, #{nickName}, #{email}, #{birthDay}, 
+	 		   #{gender}, #{phone}, #{address}, sysdate, sysdate, default)
+	 </insert>
+	 
+	 <update id="updateMember" parameterType="Member">
+	 	update Member
+	 	set user_name=#{userName}, nickName=#{nickName}, email=#{email}, birthday=#{birthDay},
+	 		gender=#{gender}, phone=#{phone}, address=#{address}
+	 	where user_id=#{userId}
+	 </update>
+	 
+	 <update id="updatePwd" parameterType="hashmap"> <!-- map으로 써줘도 됨(HashMap은 내장별칭이 있다) -->
+	 	update Member
+	 	set user_pwd=#{newPwd}
+	 	where user_id=#{userId} and user_pwd=#{userPwd}
+	 </update>
+	 
+	 <update id="deleteMember" parameterType="string">
+	 	update Member
+	 	set m_status= 'N'
+	 	where user_id=#{userId}
+	 </update>
 </mapper>

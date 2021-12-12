@@ -9,6 +9,10 @@
 	<properties resource="/driver.properties"/>
 	<!-- 순서 상 맨 앞에 둬야 하기 때문에 맨 앞으로 옮기면 에러나지 않음 -->
 	
+	<typeAliases>
+		<typeAlias type="member.model.vo.Member" alias="Member"/>
+	</typeAliases>
+	
 	<!-- DB에 연결할 설정에 대한 정보 선언 -->
 	<environments default="development">
 	<!-- default : 연결 설정을 여러 개 생성하여 아이디로 구분해놓고, 기본으로 연결할 id 속성 설정 -->
