@@ -41,7 +41,7 @@
 					<tr>
 						<td>${ b.bId }</td>
 						<td>${ b.bTitle }</td>
-						<td>${ b.bWriter }</td>
+						<td>${ b.nickName }</td>
 						<td>${ b.bCount }</td>
 						<td>${ b.bModifyDate }</td>
 					</tr>					
@@ -57,6 +57,10 @@
 <!-- ${ loc } : 현재 ContextPath/url -> 1_MyBatis/selectList.bo -->
 					<c:url value="${ loc }" var="blistBack">
 						<c:param name="currentPage" value="${ pi.currentPage - 1 }"/>
+						<c:if test="${ searchValue ne null }">
+								<c:param name="searchCondition" value="${ searchCondition }"/>
+								<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<a href="${ blistBack }">[이전]</a>
 				</c:if>
@@ -68,6 +72,10 @@
 					<c:if test="${ p ne pi.currentPage }">
 						<c:url var="blistCheck" value="${ loc }">
 							<c:param name="currentPage" value="${ p }"/>
+							<c:if test="${ searchValue ne null }">
+								<c:param name="searchCondition" value="${ searchCondition }"/>
+								<c:param name="searchValue" value="${ searchValue }"/>
+							</c:if>
 						</c:url>
 						<a href="${ blistCheck }">${ p }</a>
 					</c:if>
@@ -77,6 +85,10 @@
 				<c:if test="${ pi.currentPage < pi.maxPage }">
 					<c:url value="${ loc }" var="blistNext">
 						<c:param name="currentPage" value="${ pi.currentPage + 1 }"/>
+						<c:if test="${ searchCondition ne null }">
+							<c:param name="searchCondition" value="${ searchCondition }"/>
+							<c:param name="searchValue" value="${ searchValue }"/>
+						</c:if>
 					</c:url>
 					<a href="${ blistNext }">[다음]</a>
 				</c:if>
