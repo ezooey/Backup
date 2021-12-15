@@ -31,5 +31,27 @@
 		<url-pattern>*.do</url-pattern>
 		<!-- '/'은 모든 url을 다 받아주는 역할 -->
 	</servlet-mapping>
+	
+	<!-- 멤버 관련 -->
+	<servlet>
+		<servlet-name>memberServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- spring overview 참고 -->
+		<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/appServlet/member-context.xml</param-value>
+		
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>memberServlet</servlet-name>
+		<url-pattern>*.me</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 공용 에러페이지 등록 -->
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/WEB-INF/views/common/errorPage.jsp</location>
+	</error-page>
 
 </web-app>
