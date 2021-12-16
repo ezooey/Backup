@@ -1,10 +1,15 @@
 package com.kh.spring.member.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -23,6 +28,9 @@ public class MemberController {
 	// 여기서 객체 생성을 하는 게 아니라 MemberServiceImpl쪽에서 어노테이션을 지정해줌(주도권이 나한테 없게 됨)
 	// 필드로만 옮기면 너무 1차원적인 해결방법
 	// MemberServiceImpl쪽에서 controller로 객체가 주입되지 않으면(DI가 이루어지지 않으면) null이 뜸
+	
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
 	
 //	@RequestMapping(value="login.me", method=RequestMethod.POST)
 //	public void login() {
@@ -130,24 +138,151 @@ public class MemberController {
 	
 	// 3. session에 저장할 때 @SessionAttributes 사용
 	// model객체에 attribute가 추가될 때, 자동으로 키 값을 찾아 세션에 등록
-	@RequestMapping(value="login.me", method=RequestMethod.POST)
-	public String login(Member m, Model model) {
-		
-		Member loginMember = mService.memberLogin(m);
-		
-		if(loginMember != null) {
-			model.addAttribute("loginUser", loginMember);
-			
-			return "redirect:home.do";
-		} else {
-			throw new MemberException("로그인에 실패하였습니다."); // unchecked exception으로 설정해서 throw해도 에러 안 남
-		}
-		
-	}
+//	@RequestMapping(value="login.me", method=RequestMethod.POST)
+//	public String login(Member m, Model model) {
+//		
+//		Member loginMember = mService.memberLogin(m);
+//		
+//		if(loginMember != null) {
+//			model.addAttribute("loginUser", loginMember);
+//			
+//			return "redirect:home.do";
+//		} else {
+//			throw new MemberException("로그인에 실패하였습니다."); // unchecked exception으로 설정해서 throw해도 에러 안 남
+//		}
+//	}
 	
 	@RequestMapping("logout.me")
 	public String logout(SessionStatus session) {
 		session.setComplete();
+		
+		return "redirect:home.do";
+	}
+	
+	@RequestMapping("enrollView.me")
+	public String enrollView() {
+		
+		return "memberJoin";
+	}
+	
+	@RequestMapping("minsert.me")
+	public String insertMember(@ModelAttribute Member m, @RequestParam("post") String post,
+							   							 @RequestParam("address1") String address1,
+							   							 @RequestParam("address2") String address2) {
+		
+		String address = post + "/" + address1 + "/" + address2;
+		m.setAddress(address);
+		
+		// bcrypt 암호화 방식 : 스프링 시큐리티 모듈에서 제공
+		// 암호화 + 랜덤한 salt값
+		String encPwd = bcrypt.encode(m.getPwd());
+		m.setPwd(encPwd);
+		
+		System.out.println(m);
+		
+		int result = mService.insertMember(m);
+		
+		if(result > 0) {
+			return "redirect:home.do";
+		} else {
+			throw new MemberException("회원 가입에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping(value="login.me", method=RequestMethod.POST)
+	public String login(Member m, Model model) { // 암호화 안 돼 있음
+		
+//		String encPwd = bcrypt.encode(m.getPwd());
+//		m.setPwd(encPwd);
+		// 로그인할 때 쓸 비번을 암호화 시도 
+		// => 랜덤한 salt값에 의해 매번 암호화가 바뀌어서 암호화된 비번과 로그인 시 입력된 암호화 비번과 같지 않음 
+		
+		System.out.println(bcrypt.encode(m.getPwd()));
+		
+		Member loginMember = mService.memberLogin(m); // 암호화 되어 있음
+		
+		// 입력한 비밀번호와 암호화된 비밀번호를 매개변수로 일치하는지 여부 검사
+		if(bcrypt.matches(m.getPwd(), loginMember.getPwd())) {
+			model.addAttribute("loginUser", loginMember);
+			
+			return "redirect:home.do";
+		} else {
+			throw new MemberException("로그인에 실패하였습니다.");
+		}
+		
+//		if(loginMember != null) {
+//			model.addAttribute("loginUser", loginMember);
+//			return "redirect:home.do";
+//		} else {
+//			throw new MemberException("로그인에 실패하였습니다.");
+//		}
+	}
+	
+	@RequestMapping("myinfo.me")
+	public String myInfoView() {
+		return "mypage";
+	}
+	
+	@RequestMapping("mupdateView.me")
+	public String updateFormView() {
+		return "memberUpdateForm";
+	}
+	
+	@RequestMapping("mupdate.me")
+	public String updateMember(@ModelAttribute Member m, @RequestParam("post") String post,
+				 										 @RequestParam("address1") String address1,
+				 										 @RequestParam("address2") String address2,
+				 										 Model model) {
+		
+		String address = post + "/" + address1 + "/" + address2;
+		m.setAddress(address);
+		
+		int result = mService.updateMember(m);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", m);
+			// sessionAttribute에 저장해놨기 때문에 model에 추가해줌(sessionAttribute는 model에 들어온 정보를 자동으로 불러옴)
+			return "redirect:myinfo.me";
+		} else {
+			throw new MemberException("회원정보 수정에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("mpwdUpdateView.me")
+	public String updatePwdFormView() {
+		return "memberPwdUpdateForm";
+	}
+	
+	@RequestMapping("mPwdUpdate.me")
+	public String updatePwd(@RequestParam("pwd") String pwd, @RequestParam("newPwd1") String newPwd1,
+							@RequestParam("newPwd2") String newPwd2, Model model/*, HttpServletRequest request*/) {
+		
+//		HttpSession session = request.getSession();
+//		Member m = (Member)session.getAttribute("loginUser");
+		
+		Member m = (Member)model.getAttribute("loginUser");
+		Member dbMember = mService.memberLogin(m);
+		
+		int result = 0;
+		if(bcrypt.matches(pwd, dbMember.getPwd()) && newPwd1.equals(newPwd2)) { 
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("id", m.getId());
+			map.put("newPwd", bcrypt.encode(newPwd1));
+			
+			result = mService.updatePwd(map);
+			
+//			// 입력한 비번과 기존 비번이 일치하면 && 새비번과 비번 확인이 일치하면
+//			m.setPwd(bcrypt.encode(newPwd1)); // 암호화된 새 비번으로 비번을 설정해
+//			int result = mService.updatePwd(m); // 새 비번으로 설정한 m을 넘겨
+//			
+//			if(result > 0) {
+//				model.addAttribute("loginUser", m);
+//				return "redirect:myinfo.me";
+//			}
+		}
+		if(result <= 0) {
+			throw new MemberException("비밀번호 수정에 실패하였습니다.");
+		}
 		
 		return "redirect:home.do";
 	}

@@ -1,5 +1,7 @@
 package com.kh.spring.member.model.service;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,23 @@ public class MemberServiceImpl implements MemberService {
 	public Member memberLogin(Member m) {
 		
 		return mDAO.memberLogin(sqlSession, m);
+	}
+	
+	@Override
+	public int insertMember(Member m) {
+		
+		return mDAO.insertMember(sqlSession, m);
+	}
+
+	@Override
+	public int updateMember(Member m) {
+		
+		return mDAO.updateMember(sqlSession, m);
+	}
+
+	@Override
+	public int updatePwd(HashMap<String, String> map) {
+		return mDAO.updatePwd(sqlSession, map);
 	}
 	
 }

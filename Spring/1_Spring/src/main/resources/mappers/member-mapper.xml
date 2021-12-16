@@ -5,7 +5,7 @@
 	<select id="memberLogin" resultMap="memberResultSet">
 		select *
 		from member
-		where id=#{id} and pwd=#{pwd} and member_status='Y'
+		where id=#{id} and member_status='Y' <!-- 일단 아이디만 가져와서 bcrypt의 메소드로 비번 확인 -->
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -13,7 +13,7 @@
 		<result column="PWD" property="pwd"/>
 		<result column="NAME" property="name"/>
 		<result column="NICKNAME" property="nickName"/>
-		<result column="NICKNAME" property="email"/>
+		<result column="EMAIL" property="email"/>
 		<result column="GENDER" property="gender"/>
 		<result column="AGE" property="age"/>
 		<result column="PHONE" property="phone"/>
@@ -22,4 +22,23 @@
 		<result column="UPDATE_DATE" property="updateDate"/>
 		<result column="MEMBER_STATUS" property="memberStatus"/>
 	</resultMap>
+	
+	<insert id="insertMember">
+		insert into member
+		values(#{id}, #{pwd}, #{name}, #{nickName}, #{email}, #{gender}, 
+			   #{age}, #{phone}, #{address}, sysdate, sysdate, default)
+	</insert>
+	
+	<update id="updateMember">
+		update member
+		set name=#{name}, nickname=#{nickName}, gender=#{gender}, age=#{age}, 
+		email=#{email}, phone=#{phone}, address=#{address}, update_date=sysdate
+		where id=#{id}
+	</update>
+	
+	<update id="updatePwd">
+		update member
+		set pwd=#{newPwd}
+		where id=#{id}
+	</update>
 </mapper>
