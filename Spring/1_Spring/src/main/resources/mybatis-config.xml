@@ -2,11 +2,18 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
+	<!-- 정보를 다 적지 않았을 때 부적합한 열 유형 에러가 뜨지 않도록 입력을 안 했을 시 NULL이 들어가게끔 하는 설정 -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
 	<typeAliases>
-		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.spring.board.model.vo.Board" alias="Board"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/board-mapper.xml"/>
 	</mappers>
 </configuration>
