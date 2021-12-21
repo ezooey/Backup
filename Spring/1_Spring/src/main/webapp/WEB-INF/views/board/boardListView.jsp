@@ -107,5 +107,18 @@
 			</td>
 		</tr>
 	</table>
+	
+	<script>
+// 		$(function(){
+// 			$('#tb td').mouseenter(function(){
+// 				$(this).parent().css({'color': 'yellowgreen', 'font-weight':'bold', 'cursor':'pointer'});
+// 			}).mouseout(function(){
+// 				$(this).parent().css({'color':'black', 'font-weight':'normal'});
+// 			}).click(function(){
+// 				var bId = $(this).parent().children().eq(0).text();
+// 				location.href="bdetail.bo?bId=" + bId + '&page=' + ${pi.currentPage};
+// 			});
+// 		});
+	</script>
 </body>
 </html>

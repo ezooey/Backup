@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class BoardController {
 	
 	@RequestMapping("blist.bo")
 	public /*String*/ModelAndView boardList(@RequestParam(value="page", required=false) Integer page, /*Model model*/ModelAndView mv) { 
-		// Integer는 클래스이기 때문에 Integer라고 해주면 int일 때 null과 비교를 못하던 것과 달리 비교가 가능해진다.
+		// Integer는 클래스타입이기 때문에 Integer라고 해주면 int일 때 null과 비교를 못하던 것과 달리 비교가 가능해진다.
 		// 항상 필요한 것은 아니므로 required=false 처리 필요
 		
 		int currentPage = 1;
@@ -119,4 +120,88 @@ public class BoardController {
 		
 		return renameFileName;
 	}
+	
+	@RequestMapping("bdetail.bo")
+	public String boardDetailView(@RequestParam("page") int page, @RequestParam("bId") int bId, Model model) {
+		
+		Board board = bService.selectBoard(bId);
+		
+		if(board != null) {
+			model.addAttribute("board", board);
+			model.addAttribute("page", page);
+			// page를 보내는 이유 : 상세페이지에서 목록으로 돌아갈 때 해당 게시글이 있는 목록으로 돌아가기 위함.
+			return "boardDetailView";
+		} else {
+			throw new BoardException("게시글 상세 조회에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("bupView.bo")
+	public String boardUpdateView(@RequestParam("bId") int bId, @RequestParam("page") int page, Model model) {
+		
+		Board b = bService.selectBoard(bId);
+		
+		model.addAttribute("board", b).addAttribute("page", page);
+		
+		return "boardUpdateForm";
+	}
+	
+	@RequestMapping("bupdate.bo")
+	public String updateBoard(@ModelAttribute Board b, @RequestParam("page") int page,
+							  @RequestParam("reloadFile") MultipartFile reloadFile,
+							  HttpServletRequest request, Model model) {
+		
+		if(reloadFile != null && !reloadFile.isEmpty()) { // 수정할 파일 존재
+			// 수정할 파일 존재 + 기존 파일 존재 = 기존 파일 삭제
+			if(b.getRenameFileName() != null) {
+				deleteFile(b.getRenameFileName(), request);
+			}
+			
+			String renameFileName = saveFile(reloadFile, request);
+			
+			if(renameFileName != null) {
+				b.setOriginalFileName(reloadFile.getOriginalFilename());
+				b.setRenameFileName(renameFileName);
+			}
+		}
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			model.addAttribute("page", page);
+		} else {
+			throw new BoardException("게시글 수정에 실패하였습니다.");
+		}
+		
+		return "redirect:bdetail.bo?bId=" + b.getBoardId();	
+	}
+	
+	public void deleteFile(String fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/buploadFiles";
+		
+		File f = new File(savePath + "/" + fileName);
+		
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
+	@RequestMapping("bdelete.bo")
+	public String deleteBoard(@RequestParam("bId") int bId, HttpServletRequest request) {
+		
+		Board b = bService.selectBoard(bId);
+		if(b.getOriginalFileName() != null) {
+			deleteFile(b.getRenameFileName(), request);
+		}
+		
+		int result = bService.deleteBoard(bId);
+		
+		if(result > 0) {
+			return "redirect:blist.bo";
+		} else {
+			throw new BoardException("게시글 삭제에 실패하였습니다.");
+		}
+	}
+	
 }

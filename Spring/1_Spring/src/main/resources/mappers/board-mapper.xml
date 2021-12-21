@@ -37,4 +37,33 @@
 		values(SEQ_BID.NEXTVAL, #{boardTitle}, #{boardWriter}, #{boardContent}, #{originalFileName},
 			   #{renameFileName}, default, sysdate, sysdate, default)
 	</insert>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		select *
+		from board
+			 join member on(board_writer = id)
+		where board_id = #{bId} and board_status = 'Y'
+	</select>
+	
+	<update id="addReadCount">
+		update board
+		set board_count = board_count + 1
+		where board_id = #{bId}
+	</update>
+	
+	<update id="updateBoard">
+		update board
+		set board_title = #{boardTitle}, board_content = #{boardContent},
+			<if test= "originalFileName != null">
+				original_filename = #{originalFileName},
+			</if>
+			 rename_filename = #{renameFileName}, board_modify_date = sysdate
+		where board_id = #{boardId}
+	</update>
+	
+	<update id="deleteBoard">
+		update board
+		set board_status = 'N'
+		where board_id = #{bId}
+	</update>
 </mapper>
