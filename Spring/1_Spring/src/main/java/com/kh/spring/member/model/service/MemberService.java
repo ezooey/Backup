@@ -14,4 +14,6 @@ public interface MemberService {
 
 	int updatePwd(HashMap<String, String> map);
 
+	int duplicateId(String id);
+
 }

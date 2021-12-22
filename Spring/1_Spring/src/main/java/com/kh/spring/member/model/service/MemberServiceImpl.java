@@ -40,5 +40,11 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePwd(HashMap<String, String> map) {
 		return mDAO.updatePwd(sqlSession, map);
 	}
+
+	@Override
+	public int duplicateId(String id) {
+		
+		return mDAO.duplicateId(sqlSession, id);
+	}
 	
 }

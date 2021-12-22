@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +23,8 @@ import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
 import com.kh.spring.common.Pagination;
+import com.kh.spring.member.model.vo.Member;
+import com.kh.spring.member.model.vo.Reply;
 
 @Controller
 public class BoardController {
@@ -201,6 +204,23 @@ public class BoardController {
 			return "redirect:blist.bo";
 		} else {
 			throw new BoardException("게시글 삭제에 실패하였습니다.");
+		}
+	}
+	
+	// 반환형은 String, 반환하는 값은 success가 되도록 만들 것
+	
+	@RequestMapping("addReply.bo")
+	@ResponseBody
+	public String addReply(@ModelAttribute Reply r, HttpServletRequest request) {
+		String rWriter = ((Member)request.getSession().getAttribute("loginUser")).getId();
+		r.setReplyWriter(rWriter);
+		
+		int result = bService.insertReply(r);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("댓글 등록에 실패하였습니다.");
 		}
 	}
 	

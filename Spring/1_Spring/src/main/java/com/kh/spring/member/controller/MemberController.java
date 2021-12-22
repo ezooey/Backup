@@ -1,6 +1,9 @@
 package com.kh.spring.member.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -285,5 +288,16 @@ public class MemberController {
 		}
 		
 		return "redirect:home.do";
+	}
+	
+	@RequestMapping("dupId.me")
+	public void duplicateId(@RequestParam("id") String id, HttpServletResponse response) {
+		String result = mService.duplicateId(id) == 0 ? "NoDup" : "Dup";
+		
+		try {
+			response.getWriter().println(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

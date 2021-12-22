@@ -27,4 +27,9 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.updatePwd", map);
 	}
 
+	public int duplicateId(SqlSessionTemplate sqlSession, String id) {
+		
+		return sqlSession.selectOne("memberMapper.duplicateId", id);
+	}
+
 }
