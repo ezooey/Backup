@@ -72,4 +72,38 @@
 		values(seq_rid.nextval, #{replyContent}, #{refBoardId}, #{replyWriter},
 			   sysdate, sysdate, default)
 	</insert>
+	
+	<select id="getReplyList" resultMap="ReplyResultSet">
+		select reply_id, reply_content, ref_board_id, reply_writer,
+			   nickname, reply_create_date, reply_modify_date, reply_status
+		from reply
+			 join member on(reply_writer = id)
+		where reply_status = 'Y' and ref_board_id = #{bId}
+		order by reply_id desc
+	</select>
+	
+	<resultMap type="Reply" id="ReplyResultSet">
+		<id column="REPLY_ID" property="replyId"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REF_BOARD_ID" property="refBoardId"/>
+		<result column="REPLY_WRITER" property="replyWriter"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+	</resultMap>
+	
+	<select id="getTopList" resultMap="boardResultSet">
+		<![CDATA[
+		 select *
+		 from (select *
+		 	   from board
+		 	   order by board_count desc)
+		 where 5 >= rownum and board_status = 'Y'
+		]]>
+	</select>
+	<!-- 
+		마이바티스의 쿼리의 태그화 특성 때문에 부등호 '<'를 태그의 시작으로 인지해서 <=를 쓸 수 없음
+		부등호를 5 >= rownum으로 쓰거나 <![CDATA[]]> 안에다 쿼리를 넣는 것으로 해결 가능하다.
+	-->
 </mapper>

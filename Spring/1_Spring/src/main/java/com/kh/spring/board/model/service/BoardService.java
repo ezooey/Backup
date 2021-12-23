@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
-import com.kh.spring.member.model.vo.Reply;
+import com.kh.spring.board.model.vo.Reply;
 
 public interface BoardService {
 
@@ -21,5 +21,9 @@ public interface BoardService {
 	int deleteBoard(int bId);
 
 	int insertReply(Reply r);
+
+	ArrayList<Reply> getReplyList(int bId);
+
+	ArrayList<Board> getTopList();
 
 }

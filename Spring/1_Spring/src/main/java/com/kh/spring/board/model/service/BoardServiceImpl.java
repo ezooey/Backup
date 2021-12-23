@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.board.model.dao.BoardDAO;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
-import com.kh.spring.member.model.vo.Reply;
+import com.kh.spring.board.model.vo.Reply;
 
 @Service("bService")
 public class BoardServiceImpl implements BoardService{
@@ -67,5 +67,17 @@ public class BoardServiceImpl implements BoardService{
 	public int insertReply(Reply r) {
 		
 		return bDAO.insertReply(sqlSession, r);
+	}
+
+	@Override
+	public ArrayList<Reply> getReplyList(int bId) {
+		
+		return bDAO.getReplyList(sqlSession, bId);
+	}
+
+	@Override
+	public ArrayList<Board> getTopList() {
+		
+		return bDAO.getTopList(sqlSession);
 	}
 }

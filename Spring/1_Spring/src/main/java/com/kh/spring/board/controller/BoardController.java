@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +21,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.spring.board.model.exception.BoardException;
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.Pagination;
 import com.kh.spring.member.model.vo.Member;
-import com.kh.spring.member.model.vo.Reply;
 
 @Controller
 public class BoardController {
@@ -210,7 +216,7 @@ public class BoardController {
 	// 반환형은 String, 반환하는 값은 success가 되도록 만들 것
 	
 	@RequestMapping("addReply.bo")
-	@ResponseBody
+	@ResponseBody // 리턴값을 view Name으로 인식하는 것을 방지
 	public String addReply(@ModelAttribute Reply r, HttpServletRequest request) {
 		String rWriter = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		r.setReplyWriter(rWriter);
@@ -221,6 +227,75 @@ public class BoardController {
 			return "success";
 		} else {
 			throw new BoardException("댓글 등록에 실패하였습니다.");
+		}
+	}
+	
+	// json 방식
+	@RequestMapping(value="rList.bo", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String getReplyList(@RequestParam("boardId") int bId) {
+		
+		ArrayList<Reply> list = bService.getReplyList(bId);
+		
+		JSONArray jArr = new JSONArray();
+		
+		for(Reply r : list) {
+			
+			JSONObject job = new JSONObject();
+			job.put("replyId", r.getReplyId());
+			job.put("replyContent", r.getReplyContent());
+			job.put("refBoardId", r.getRefBoardId());
+			job.put("replyWriter", r.getReplyWriter());
+			job.put("nickName", r.getNickName());
+			job.put("replyCreateDate", r.getReplyCreateDate().toString());
+			job.put("replyModifyDate", r.getReplyModifyDate().toString());
+			job.put("replyStatus", r.getReplyStatus());
+			
+			// json은 date를 잘 받아주지 못 하기 때문에 인식하지 못 하는 에러가 발생 => String으로 변환
+			
+			jArr.add(job);
+		}
+		return jArr.toJSONString();
+	}
+	
+	
+	// gson 방식
+//	@RequestMapping("rList.bo")
+//	public void getReplyList(@RequestParam("boardId") int bId, HttpServletResponse response) {
+//		
+//		ArrayList<Reply> list = bService.getReplyList(bId);
+//		
+//		response.setContentType("application/json; charset=UTF-8");
+//		
+//		GsonBuilder gb = new GsonBuilder().setDateFormat("yyyy-MM-dd");
+//		Gson gson = gb.create(); // gb를 먼저 설정한 뒤 그 형식을 이용해 gson을 create 해줌
+//		
+//		try {
+//			gson.toJson(list, response.getWriter());
+//		} catch (JsonIOException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
+	
+	@RequestMapping("topList.bo")
+	public void topList(HttpServletResponse response) {
+		
+		ArrayList<Board> list = bService.getTopList();
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		GsonBuilder gb = new GsonBuilder().setDateFormat("yyyy-MM-dd");
+		Gson gson = gb.create();
+		
+		try {
+			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

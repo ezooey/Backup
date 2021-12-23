@@ -115,14 +115,72 @@
 			
 			$.ajax({
 				url: 'addReply.bo',
-				data: {replyContent:rContent, refBoardId:refBoardId}
+				data: {replyContent:rContent, refBoardId:refBoardId},
 				success: function(data){
 					console.log(data);
+					if(data == 'success'){
+						getReplyList(); // 댓글 작성 성공 시 다시 댓글 리스트를 불러옴
+						$('#rContent').val('');
+					}
 				},
 				error: function(data){
 					console.log(data);
 				}
 			});
+		});
+		
+		function getReplyList(){
+			var bId = ${board.boardId};
+			
+			$.ajax({
+				url: 'rList.bo',
+				data:{boardId:bId},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					$tableBody = $('#rtb tbody'); // 제이쿼리로 만들었다는 것을 알리기 위해 table 앞에 $ 붙여줌
+					$tableBody.html('');
+					
+					var $tr;
+					var $writer;
+					var $content;
+					var $date;
+					
+					$('#rCount').text('댓글(' + data.length + ")");
+					
+					if(data.length > 0){
+						for(var i in data){
+							$tr = $('<tr>');
+							$writer = $('<td width="100">').text(data[i].nickName);
+							$content = $('<td>').text(data[i].replyContent);
+							$date = $('<td width="100">').text(data[i].replyCreateDate);
+							
+							$tr.append($writer);
+							$tr.append($content);
+							$tr.append($date);
+							
+							$tableBody.append($tr);
+						}
+					} else {
+						$tr = $('<tr>');
+						$content = $('<td colspan="3">').text("등록된 댓글이 없습니다.");
+						
+						$tr.append($content);
+						$tableBody.append($tr);
+					}
+				},
+				error: function(data){
+					console.log(data);
+				}
+			});
+		}
+		
+		$(function(){
+			getReplyList();
+			
+			setInterval(function(){
+				getReplyList();
+			}, 5000);
 		});
 	</script>
 </body>
