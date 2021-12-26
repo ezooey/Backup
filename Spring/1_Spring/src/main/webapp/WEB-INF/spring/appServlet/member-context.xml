@@ -26,5 +26,12 @@
 	
 	<context:component-scan base-package="com.kh.spring" />
 	<!-- 사용할 부분까지만 제한해도 상관없으나 어디까지 사용할지 모르니 사용 범위를 넓게 해놨음 -->
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean id="loggerInterceptor" class="com.kh.spring.common.interceptor.TestInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>

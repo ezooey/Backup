@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,8 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
+	
+	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 //	@RequestMapping(value="login.me", method=RequestMethod.POST)
 //	public void login() {
@@ -165,6 +169,7 @@ public class MemberController {
 	@RequestMapping("enrollView.me")
 	public String enrollView() {
 		
+		logger.debug("회원등록페이지");
 		return "memberJoin";
 	}
 	
@@ -207,6 +212,7 @@ public class MemberController {
 		// 입력한 비밀번호와 암호화된 비밀번호를 매개변수로 일치하는지 여부 검사
 		if(bcrypt.matches(m.getPwd(), loginMember.getPwd())) {
 			model.addAttribute("loginUser", loginMember);
+			logger.info(loginMember.getId());
 			
 			return "redirect:home.do";
 		} else {
