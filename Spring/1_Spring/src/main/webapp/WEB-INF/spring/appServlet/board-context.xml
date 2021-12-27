@@ -23,6 +23,12 @@
 			<mvc:mapping path="/**"/>
 			<bean id="loggerInterceptor" class="com.kh.spring.common.interceptor.TestInterceptor"/>
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/blist.bo"/>
+			<bean id="BoardEnterInterceptor" class="com.kh.spring.common.interceptor.BoardEnterInterceptor"/>
+		</mvc:interceptor>
+	<!-- blist.bo라는 url에 접근 시 BoardEnterInterceptor라는 이름의 interceptor가 요청을 가로챈다 -->
 	</mvc:interceptors>
 	
 </beans>

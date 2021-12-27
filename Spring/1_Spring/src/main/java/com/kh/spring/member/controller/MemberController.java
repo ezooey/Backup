@@ -169,7 +169,7 @@ public class MemberController {
 	@RequestMapping("enrollView.me")
 	public String enrollView() {
 		
-		logger.debug("회원등록페이지");
+//		logger.debug("회원등록페이지");
 		return "memberJoin";
 	}
 	

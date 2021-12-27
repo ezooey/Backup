@@ -102,14 +102,25 @@
 	<logger name="com.kh.spring.member.controller.MemberController" additivity="false">
 		<level value="debug"/>
 		<appender-ref ref="myConsole"/>
-		<appender-ref ref="myDailyRollingFile"/>
+<!-- 		<appender-ref ref="myDailyRollingFile"/> 
+			아래에서 따로 해주고 있기 때문에 주석해도 됨 (116행) -->
 	</logger>
 	
 	<logger name="com.kh.spring.common.interceptor.TestInterceptor" additivity="false">
 		<level value="debug"/>
 		<appender-ref ref="myConsole"/>
 	</logger>
-
+	
+	<logger name="com.kh.spring.common.interceptor.LoginInterceptor">
+		<level value="info"/>
+		<appender-ref ref="myDailyRollingFile"/>
+	</logger>
+	
+	<logger name="com.kh.spring.common.aop">
+		<level value="debug"/>
+		<appender-ref ref="myConsole"/>
+	</logger>
+	
 	<!-- Root Logger -->
 	<!-- 모든 자식 logger들의 출력이 root Logger를 통해 이루어짐 -->
 	<root>

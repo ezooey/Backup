@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- LoggerAspect1 bean 등록 -->
+<!-- 	<bean id="loggerAspect" class="com.kh.spring.common.aop.LoggerAspect1"/> -->
+
+	<!-- ===== 선언적 AOP 시작 ===== -->
+<!-- 	<aop:config> -->
+<!-- 		<aop:aspect id="loggerAspect" ref="loggerAspect"> -->
+<!-- 			<aop:pointcut expression="execution(* com.kh.spring.board..*(..))" id="pcAll"/>  -->
+			<!-- board의 모든 것에 접근하면 반환값이 다양해서 맨 앞과 맨 뒤에 * ; ..*는 보드 아래에 있는 전부 다를 의미 -->
+<!-- 			<aop:before method="loggerAdvice" pointcut-ref="pcAll"/> 메소드 이름 자체를 넣음 -->
+<!-- 			<aop:around method="loggerAdvice" pointcut-ref="pcAll"/> 메소드 이름 자체를 넣음 -->
+<!-- 		</aop:aspect> -->
+<!-- 	</aop:config> -->
+	<!-- ===== 선언적 AOP  끝 ===== -->
+	
+	<!-- ===== 프로그래밍적 AOP 시작 ===== -->
+	<aop:aspectj-autoproxy/>
+	<!-- ===== 프로그래밍적 AOP  끝 ===== -->
+	
+<!-- 	<tx:advice id="txAdvice" transaction-manager="transactionManager"> -->
+<!-- 	=> root-context의 db연결을 담당하는 객체의 아이디를 가져온 것임(트랜잭션은 db와 함께 작용하므로) -->
+<!-- 		<tx:attributes> -->
+<!-- 			<tx:method name="selectBoard" read-only="true"/> -->
+<!-- 		</tx:attributes> -->
+<!-- 	</tx:advice> -->
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut expression="execution(* com.kh.spring.board..*(..))" id="boardTx"/> -->
+<!-- 		<aop:advisor advice-ref="txAdvice" pointcut-ref="boardTx"/> -->
+<!-- 	</aop:config> -->
+
+	<tx:annotation-driven/> 
+	<!-- serviceImpl 쪽에도 @Transactional 어노테이션 붙인다 -->
+</beans>

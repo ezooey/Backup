@@ -32,6 +32,11 @@
 			<mvc:mapping path="/**"/>
 			<bean id="loggerInterceptor" class="com.kh.spring.common.interceptor.TestInterceptor"/>
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/login.me"/>
+			<bean id="loginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 </beans>
